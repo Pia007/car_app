@@ -1,0 +1,7 @@
+12/19/2023
+Left of startapp cars, customers, salespeople
+
+Next 
+    need to start create
+    models, urls, serializers, views
+    
