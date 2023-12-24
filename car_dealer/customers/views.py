@@ -1,49 +1,41 @@
-from django.shortcuts import render, get_object_or_404
-from django.http import JsonResponse
-from django.views.decorators.csrf import csrf_exempt
-from rest_framework.parsers import JSONParser
-from rest_framework import status
-from rest_framework.response import Response
+# from django.shortcuts import render, get_object_or_404
+# from django.http import JsonResponse
+# from django.views.decorators.csrf import csrf_exempt
+# from rest_framework.parsers import JSONParser
+# from rest_framework import status
+# from rest_framework.response import 
 
-from customers.models import Customer
-from customers.serializers import CustomerSerializer
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView  
+from django.urls import reverse_lazy
+from .models import Customer 
 
-# Function-based view for listing all customers
-@csrf_exempt
-def customer_list(request):
-    if request.method == 'GET':
-        customers = Customer.objects.all()
-        serializer = CustomerSerializer(customers, many=True)
-        return JsonResponse(serializer.data, safe=False)
+# from customers.models import Customer
+# from customers.serializers import CustomerSerializer
 
-# Function-based view for creating a new customer
-@csrf_exempt
-def customer_create(request):
-    if request.method == 'POST':
-        data = JSONParser().parse(request)
-        serializer = CustomerSerializer(data=data)
-        if serializer.is_valid():
-            serializer.save()
-            return JsonResponse(serializer.data, status=status.HTTP_201_CREATED)
-        return JsonResponse(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-# Function-based view for retrieving, updating, or deleting a specific customer
-@csrf_exempt
-def customer_detail(request, pk):
-    customer = get_object_or_404(Customer, pk=pk)
+class CustomerListView(ListView):
+    model = Customer
+    template_name = 'customers/customer_list.html'
+    context_object_name = 'customers'
 
-    if request.method == 'GET':
-        serializer = CustomerSerializer(customer)
-        return JsonResponse(serializer.data)
+class CustomerDetailView(DetailView):
+    model = Customer
+    template_name = 'customers/customer_detail.html'
+    context_object_name = 'customers'
 
-    elif request.method == 'PUT':
-        data = JSONParser().parse(request)
-        serializer = CustomerSerializer(customer, data=data)
-        if serializer.is_valid():
-            serializer.save()
-            return JsonResponse(serializer.data)
-        return JsonResponse(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+class CustomerCreateView(CreateView):
+    model = Customer
+    template_name = 'customers/customer_form.html'
+    fields = ['first_name', 'last_name']
 
-    elif request.method == 'DELETE':
-        customer.delete()
-        return JsonResponse({'message': 'Customer deleted successfully!'}, status=status.HTTP_204_NO_CONTENT)
+class CustomerUpdateView(UpdateView):
+    model = Customer
+    template_name = 'customers/customer_form.html'
+    fields = ['first_name', 'last_name']
+
+class CustomerDeleteView(DeleteView):
+    model = Customer
+    template_name = 'customers/customer_confirm_delete.html'
+    success_url = reverse_lazy('customer_list')
+
+

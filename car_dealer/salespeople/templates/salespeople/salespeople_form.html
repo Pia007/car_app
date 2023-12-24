@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% if edit_mode %}Edit Salesperson{% else %}Add Salesperson{% endif %}</title>
+</head>
+<body>
+    <h1>{% if edit_mode %}Edit Salesperson{% else %}Add Salesperson{% endif %}</h1>
+    
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">{% if edit_mode %}Save Changes{% else %}Add Salesperson{% endif %}</button>
+    </form>
+
+    <br>
+    <a href="{% url 'salespeople_list' %}">Back to Salespeople List</a>
+</body>
+</html>
