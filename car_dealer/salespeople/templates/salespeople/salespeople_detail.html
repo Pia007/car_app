@@ -1,0 +1,35 @@
+{% extends 'salespeople_list.html' %}
+
+{% block title %}Salespeople Details{% endblock %}
+
+{% block content %}
+    <h2>Salespeople Details: {{ salespeople.first_name }} {{ salespeople.last_name }}</h2>
+
+    <div>
+        <strong>First Name:</strong> {{ salespeople.first_name }}<br>
+        <strong>Last Name:</strong> {{ salespeople.last_name }}<br>
+        <!-- Include additional fields if necessary -->
+    </div>
+
+    <div>
+        <a href="{% url 'salespeople_edit' salespeople.id %}">Edit Salespeople</a> | 
+        <a href="{% url 'salespeople_delete' salespeople.id %}">Delete Salespeople</a>
+    </div>
+{% endblock %}
+{% extends 'salespeople_list.html' %}
+
+{% block title %}{% if salespeople %}Edit{% else %}Add{% endif %} Salespeople{% endblock %}
+
+{% block content %}
+    <h2>{% if salespeople %}Edit{% else %}Add{% endif %} Salespeople</h2>
+
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Save</button>
+    </form>
+
+    {% if salespeople %}
+        <a href="{% url 'salespeople_delete' salespeople.id %}">Delete this salespeople</a>
+    {% endif %}
+{% endblock %}

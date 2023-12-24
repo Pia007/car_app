@@ -4,4 +4,21 @@ Left of startapp cars, customers, salespeople
 Next 
     need to start create
     models, urls, serializers, views
-    
+
+Then migrate
+
+
+12/23/2023
+Finally got the migrations to work
+
+in car_prod directory
+    docker-compose down
+    docker-compose up -d --build
+    or docker-compose build
+    docker-compose up -d
+    docker-compose exec web python manage.py makemigrations
+    docker compose exec web python manage.py migrate --noinput
+
+    salespeople works from cars to salespeople. 
+    have to make a salespeople form html
+    get Customer view returned to the way Salespeople view and urls are written
