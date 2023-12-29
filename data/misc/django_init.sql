@@ -1,5 +1,5 @@
-DROP DATABASE IF EXISTS car_dealer_db;
-CREATE DATABASE car_dealer_db;
+SELECT 'CREATE DATABASE car_dealer_db'
+WHERE NOT EXISTS (SELECT FROM pg_database WHERE datname = 'car_dealer_db')\gexec
 
 \c car_dealer_db
 

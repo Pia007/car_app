@@ -1,0 +1,22 @@
+{% extends 'cars/car_list.html' %}
+
+{% block content %}
+  <h2>{% if object %}Edit{% else %}Add{% endif %} Car</h2>
+
+  <!-- Display Messages -->
+  {% if messages %}
+    {% for message in messages %}
+      <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}">
+        {{ message }}
+      </div>
+    {% endfor %}
+  {% endif %}
+
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}  <!-- Render form fields here -->
+    <button type="submit" class="btn btn-primary">{% if object %}Update{% else %}Create{% endif %} Car</button>
+    <a href="{% url 'car_list' %}" class="btn btn-secondary">Cancel</a>
+  </form>
+{% endblock %}
+

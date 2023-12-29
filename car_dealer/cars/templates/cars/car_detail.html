@@ -1,0 +1,21 @@
+{% extends "cars/car_list.html" %}
+
+{% block content %}
+  <!-- Detail view content goes here -->
+  <div class="car-detail">
+    <h2>Car Details</h2>
+    <p><strong>Make:</strong> {{ car.make }}</p>
+    <p><strong>Model:</strong> {{ car.model }}</p>
+    <p><strong>Year:</strong> {{ car.year }}</p>
+    <p><strong>Color:</strong> {{ car.color }}</p>
+    <p><strong>Price:</strong> {{ car.price }}</p>
+    <p><strong>Mileage:</strong> {{ car.mileage }}</p>
+    <p><strong>Sold:</strong> {{ car.sold }}</p>
+    <p><strong>Date Sold:</strong> {{ car.date_sold }}</p>
+    <p><strong>Salespeople:</strong> {{ car.salespeople.all|join:", " }}</p>
+
+    <a href="{% url 'car_edit' car.id %}">Edit</a> |
+    <a href="{% url 'car_delete' car.id %}">Delete</a> |
+    <a href="{% url 'car_list' %}">Back to List</a>
+  </div>
+{% endblock %}

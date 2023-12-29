@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 
 class Salespeople(models.Model):
     first_name = models.CharField(max_length=50)
@@ -8,6 +9,9 @@ class Salespeople(models.Model):
 
     def __str__(self):
         return f"{self.first_name} {self.last_name}"
+    
+    def get_absolute_url(self):
+        return reverse('salespeople_new', args=[str(self.id)])
 
 
 

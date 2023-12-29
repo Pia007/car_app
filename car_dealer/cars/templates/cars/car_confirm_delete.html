@@ -1,0 +1,14 @@
+{% extends "cars/car_list.html" %}
+
+{% block content %}
+  <div class="car-delete-confirmation">
+    <h2>Delete Car</h2>
+    <p>Are you sure you want to delete "{{ object }}"?</p>
+
+    <form method="post">
+      {% csrf_token %}
+      <button type="submit" class="btn btn-danger">Yes, delete</button>
+      <a href="{% url 'car_detail' object.id %}" class="btn btn-secondary">Cancel</a>
+    </form>
+  </div>
+{% endblock %}

@@ -1,10 +1,40 @@
-<html>
-    <body>
-        <h1>Car List</h1>
-        <ul>
-            {% for car in cars %}
-            <li>{{ car.make }}</li>
-            {% endfor %}
-        </ul>
-    </body>
-</html>
+{% extends 'cars/base.html' %}
+<!-- {% load static %} -->
+{% block title %}Car List{% endblock %}
+
+{% block content %}
+    <h1>Car List</h1>
+
+    <a href="{% url 'car_new' %}">Add New Car</a>
+
+    {% if cars %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Make</th>
+                    <th>Model</th>
+                    <th>Year</th>
+                    <th>Color</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for car in cars %}
+                <tr>
+                    <td>{{ car.make }}</td>
+                    <td>{{ car.model }}</td>
+                    <td>{{ car.year }}</td>
+                    <td>{{ car.color }}</td>
+                    <td>
+                        <a href="{% url 'car_detail' car.id %}">View</a> |
+                        <a href="{% url 'car_edit' car.id %}">Edit</a> |
+                        <a href="{% url 'car_delete' car.id %}">Delete</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No cars available.</p>
+    {% endif %}
+{% endblock %}

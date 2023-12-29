@@ -22,3 +22,13 @@ in car_prod directory
     salespeople works from cars to salespeople. 
     have to make a salespeople form html
     get Customer view returned to the way Salespeople view and urls are written
+
+12/28/2023
+    cars views fixed. 
+    home page fixed
+
+    need to use insomnia to add data to database
+    able to add cars to db by overriding dispatch method in views.py
+
+    next fixed create and updates views to override dispatch method. Add salespeople and customers
+    
