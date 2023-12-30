@@ -19,14 +19,14 @@ class CustomerDetailView(DetailView):
 class CustomerCreateView(CreateView):
     model = Customer
     template_name = 'customers/customer_form.html'
-    fields = ['first_name', 'last_name', 'email', 'phone_number', 'address', 'city', 'state', 'zip_code']  # Updated fields
+    fields = ['first_name', 'last_name', 'email', 'phone_number', 'address', 'city', 'state', 'zip_code', 'handled_by', 'purchased_cars']  # Include 'handled_by' and 'purchased_cars'il', 'phone_number', 'address', 'city', 'state', 'zip_code']  # Updated fields
     success_url = reverse_lazy('customer_list')
 
 @method_decorator(csrf_exempt, name='dispatch')
 class CustomerUpdateView(UpdateView):
     model = Customer
     template_name = 'customers/customer_form.html'
-    fields = ['first_name', 'last_name', 'email', 'phone_number', 'address', 'city', 'state', 'zip_code']  # Updated fields
+    fields = ['first_name', 'last_name', 'email', 'phone_number', 'address', 'city', 'state', 'zip_code', 'handled_by', 'purchased_cars']  # Include 'handled_by' and 'purchased_cars'
     success_url = reverse_lazy('customer_list')
 
 class CustomerDeleteView(DeleteView):

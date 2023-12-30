@@ -8,21 +8,20 @@
     <div>
         <strong>First Name:</strong> {{ salespeople.first_name }}<br>
         <strong>Last Name:</strong> {{ salespeople.last_name }}<br>
-        <!-- Include additional fields if necessary -->
+        <strong>Email:</strong> {{ salespeople.email }}<br>
+        <strong>Phone Number:</strong> {{ salespeople.phone_number }}<br>
     </div>
 
     <!-- Cars Sold Section -->
     <div>
         <h3>Cars Sold</h3>
-        
-            <ul>
-                {% for car in salespeople.sold_cars.all %}
-                    <li>{{car.vin}}  {{ car.make }} {{ car.model }} - {{ car.year }} - {{car.price}} - Commission: ${{ car.calculate_commission }}</li>
-                {% empty %}
-                    <li>No cars sold.</li>
-                {% endfor %}
-            </ul>
-        
+        <ul>
+            {% for car in salespeople.sold_cars.all %}
+                <li>{{car.vin}}  {{ car.make }} {{ car.model }} - {{ car.year }} - {{car.price}} - Commission: ${{ car.calculate_commission }}</li>
+            {% empty %}
+                <li>No cars sold.</li>
+            {% endfor %}
+        </ul>
     </div>
 
     <!-- Customers Section -->
@@ -31,7 +30,7 @@
         {% if salespeople.customers.all %}
             <ul>
                 {% for customer in salespeople.customers.all %}
-                    <li>{{ customer.first_name }} {{ customer.last_name }}</li> <!-- Assuming the Customer model has first_name and last_name fields -->
+                    <li>{{ customer.first_name }} {{ customer.last_name }}</li>
                 {% endfor %}
             </ul>
         {% else %}
@@ -44,3 +43,4 @@
         <a href="{% url 'salespeople_delete' salespeople.id %}">Delete Salesperson</a>
     </div>
 {% endblock %}
+
