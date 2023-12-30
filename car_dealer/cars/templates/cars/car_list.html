@@ -11,20 +11,24 @@
         <table>
             <thead>
                 <tr>
+                    <th>VIN</th>
                     <th>Make</th>
                     <th>Model</th>
                     <th>Year</th>
                     <th>Color</th>
+                    <th>Type</th> <!-- New column header for Type -->
                     <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
                 {% for car in cars %}
                 <tr>
+                    <td>{{ car.vin }}</td>
                     <td>{{ car.make }}</td>
                     <td>{{ car.model }}</td>
                     <td>{{ car.year }}</td>
                     <td>{{ car.color }}</td>
+                    <td>{{ car.get_car_type_display }}</td> <!-- New column data for Type -->
                     <td>
                         <a href="{% url 'car_detail' car.id %}">View</a> |
                         <a href="{% url 'car_edit' car.id %}">Edit</a> |

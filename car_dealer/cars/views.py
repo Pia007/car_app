@@ -5,7 +5,6 @@ from django.urls import reverse_lazy
 from django.contrib import messages
 from .models import Car
 
-
 class CarIndexView(ListView):
     model = Car
     template_name = 'cars/index.html'
@@ -25,8 +24,8 @@ class CarDetailView(DetailView):
 class CarCreateView(CreateView):
     model = Car
     template_name = 'cars/car_form.html'
-    fields = ['make', 'model', 'year', 'color', 'price', 'mileage', 'sold', 'date_sold', 'salespeople']
-    success_url = reverse_lazy('car_list')  # Redirect to the car list after creation
+    fields = ['make', 'model', 'year', 'color', 'price', 'mileage', 'sold', 'date_sold', 'salespeople', 'car_type']  # Added 'car_type'
+    success_url = reverse_lazy('car_list')
 
     def form_valid(self, form):
         response = super().form_valid(form)
@@ -36,7 +35,7 @@ class CarCreateView(CreateView):
 class CarUpdateView(UpdateView):
     model = Car
     template_name = 'cars/car_form.html'
-    fields = ['make', 'model', 'year', 'color', 'price', 'mileage', 'sold', 'date_sold', 'salespeople']
+    fields = ['make', 'model', 'year', 'color', 'price', 'mileage', 'sold', 'date_sold', 'salespeople', 'car_type']  # Added 'car_type'
 
     def form_valid(self, form):
         response = super().form_valid(form)
@@ -46,5 +45,4 @@ class CarUpdateView(UpdateView):
 class CarDeleteView(DeleteView):
     model = Car
     template_name = 'cars/car_confirm_delete.html'
-    success_url = reverse_lazy('car_list')  # Ensure this matches your URL name for car list
-
+    success_url = reverse_lazy('car_list')

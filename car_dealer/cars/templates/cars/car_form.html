@@ -14,9 +14,47 @@
 
   <form method="post">
     {% csrf_token %}
-    {{ form.as_p }}  <!-- Render form fields here -->
+    <p>
+      {{ form.make.label_tag }}<br>
+      {{ form.make }}
+    </p>
+    <p>
+      {{ form.model.label_tag }}<br>
+      {{ form.model }}
+    </p>
+    <p>
+      {{ form.year.label_tag }}<br>
+      {{ form.year }}
+    </p>
+    <p>
+      {{ form.color.label_tag }}<br>
+      {{ form.color }}
+    </p>
+    <p>
+      {{ form.price.label_tag }}<br>
+      {{ form.price }}
+    </p>
+    <p>
+      {{ form.mileage.label_tag }}<br>
+      {{ form.mileage }}
+    </p>
+    <p>
+      {{ form.sold.label_tag }}<br>
+      {{ form.sold }}
+    </p>
+    <p>
+      {{ form.date_sold.label_tag }}<br>
+      {{ form.date_sold }}
+    </p>
+    <p>
+      {{ form.salespeople.label_tag }}<br>
+      {{ form.salespeople }}
+    </p>
+    <p>
+      {{ form.car_type.label_tag }}<br>
+      {{ form.car_type }}
+    </p>
     <button type="submit" class="btn btn-primary">{% if object %}Update{% else %}Create{% endif %} Car</button>
     <a href="{% url 'car_list' %}" class="btn btn-secondary">Cancel</a>
   </form>
 {% endblock %}
-

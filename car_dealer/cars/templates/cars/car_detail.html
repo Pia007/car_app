@@ -4,6 +4,7 @@
   <!-- Detail view content goes here -->
   <div class="car-detail">
     <h2>Car Details</h2>
+    <p><strong>VIN:</strong> {{ car.vin }}</p>
     <p><strong>Make:</strong> {{ car.make }}</p>
     <p><strong>Model:</strong> {{ car.model }}</p>
     <p><strong>Year:</strong> {{ car.year }}</p>
@@ -13,9 +14,11 @@
     <p><strong>Sold:</strong> {{ car.sold }}</p>
     <p><strong>Date Sold:</strong> {{ car.date_sold }}</p>
     <p><strong>Salespeople:</strong> {{ car.salespeople.all|join:", " }}</p>
+    <p><strong>Type:</strong> {{ car.get_car_type_display }}</p> <!-- Added line for car type -->
 
     <a href="{% url 'car_edit' car.id %}">Edit</a> |
     <a href="{% url 'car_delete' car.id %}">Delete</a> |
     <a href="{% url 'car_list' %}">Back to List</a>
   </div>
 {% endblock %}
+
