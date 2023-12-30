@@ -1,6 +1,6 @@
 {% extends 'customers/customer_list.html' %}
 
-{% block title %}{% if customer %}Edit{% else %}Add{% endif %} Customer{% endblock %}
+{% block title %}{% if object %}Edit{% else %}Add{% endif %} Customer{% endblock %}
 
 {% block content %}
     <h2>{% if customer %}Edit{% else %}Add{% endif %} Customer</h2>
@@ -25,10 +25,36 @@
             {{ form.phone_number }}
         </p>
         <p>
-            {{ form.address.label_tag }}<br>
-            {{ form.address }}
+            {{ form.address1.label_tag }}<br>
+            {{ form.address1 }}
         </p>
-        <!-- Add other fields in a similar way -->
+        <p>
+            {{ form.address2.label_tag }}<br>
+            {{ form.address2 }}
+        </p>
+        <p>
+            {{ form.city.label_tag }}<br>
+            {{ form.city }}
+        </p>
+        <p>
+            {{ form.state.label_tag }}<br>
+            {{ form.state }}
+        </p>
+        <p>
+            {{ form.zip_code.label_tag }}<br>
+            {{ form.zip_code }}
+        </p>
+        <!-- Purchased Cars Selection Dropdown -->
+        <p>
+            {{ form.purchased_cars.label_tag }}<br>
+            {{ form.purchased_cars }}
+        </p>
+
+        <!-- Salesperson Selection Dropdown -->
+        <p>
+            {{ form.handled_by.label_tag }}<br>
+            {{ form.handled_by }}
+        </p>
         
         <button type="submit">Save</button>
     </form>

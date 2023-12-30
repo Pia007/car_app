@@ -57,4 +57,4 @@ class Car(models.Model):
         #     self.salesperson.cars_sold_by.add(self)
 
     def __str__(self):
-        return f'{self.year} {self.make} {self.model} - {self.car_type}'
+        return f'{self.vin} - {self.year} {self.make} {self.model} - {self.car_type}'

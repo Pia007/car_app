@@ -42,5 +42,6 @@ in car_prod directory
         edit form and values
         link customer names to cars in list if sold
         link customer names to salesperson in list if sold
+        add city zip state to list and address 2
     
     

@@ -1,7 +1,7 @@
 {% extends 'salespeople/salespeople_list.html' %}
 
 {% block content %}
-    <h2>{% if salespeople %}Edit{% else %}Add{% endif %} Salespeople</h2>
+    <h2>{% if object %}Edit{% else %}Add{% endif %} Salesperson</h2>
 
     <form method="post">
         {% csrf_token %}
@@ -24,12 +24,13 @@
         </p>
         <!-- Add other fields here as needed -->
         
-        <button type="submit">Save</button>
+        <button type="submit"  class="btn btn-primary">{% if object %}Update{% else %}Create{% endif %} Salesperson</button>
+        <a href="{% url 'salespeople_list' %}" class="btn btn-secondary">Cancel</a>
     </form>
 
-    {% if salespeople %}
+    <!-- {% if salespeople %}
         <a href="{% url 'salespeople_delete' salespeople.id %}">Delete this salesperson</a>
-    {% endif %}
+    {% endif %} -->
 {% endblock %}
 
 

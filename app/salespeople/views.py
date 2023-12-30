@@ -19,13 +19,13 @@ class SalespeopleDetailView(DetailView):
 class SalespeopleCreateView(CreateView):
     model = Salespeople
     template_name = 'salespeople/salespeople_form.html'
-    fields = ['first_name', 'last_name', 'email', 'phone_number', 'customers']
+    fields = ['first_name', 'last_name', 'email', 'phone_number']
     success_url = reverse_lazy('salespeople_list')
 
 class SalespeopleUpdateView(UpdateView):
     model = Salespeople
     template_name = 'salespeople/salespeople_form.html'
-    fields = ['first_name', 'last_name', 'email', 'phone_number', 'customers']
+    fields = ['first_name', 'last_name', 'email', 'phone_number']
     success_url = reverse_lazy('salespeople_list')
 
     def form_valid(self, form):
