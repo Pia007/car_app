@@ -17,7 +17,7 @@ in car_prod directory
     or docker-compose build
     docker-compose up -d
     docker-compose exec web python manage.py makemigrations
-    docker compose exec web python manage.py migrate --noinput
+    docker-compose exec web python manage.py migrate --noinput
 
     salespeople works from cars to salespeople. 
     have to make a salespeople form html

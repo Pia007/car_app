@@ -1,10 +1,10 @@
 version: "3.8"
 services:
   web:
-    build: ./car_dealer
+    build: ./app
     command: python manage.py runserver 0.0.0.0:8000
     volumes:
-      - ./car_dealer/:/usr/src/app/
+      - ./app/:/usr/src/app/
     ports:
       - 8000:8000
     environment:
