@@ -1,15 +1,15 @@
-{% extends 'salespeople_list.html' %}
+{% extends "salespeople/salespeople_list.html" %}
 
-{% block title %}Confirm Delete Salespeople{% endblock %}
+{% block title %}Confirm Delete Salesperson{% endblock %}
 
 {% block content %}
-    <h2>Confirm Delete</h2>
-
-    <p>Are you sure you want to delete "{{ salespeople.first_name }} {{ salespeople.last_name }}"?</p>
+    <h2>Delete Salesperson</h2>
+    <p>Are you sure you want to delete "{{ object }}"?</p>
+    <!-- <p>Are you sure you want to delete "{{ salespeople.first_name }} {{ salespeople.last_name }}"?</p> -->
 
     <form method="post">
         {% csrf_token %}
-        <input type="submit" value="Yes, delete" />
-        <a href="{% url 'salespeople_list' %}">Cancel</a>
+        <button type="submit" class="btn btn-danger">Yes, delete</button>
+        <a href="{% url 'salespeople_detail'  object.id %}" class="btn btn-secondary">Cancel</a>
     </form>
 {% endblock %}

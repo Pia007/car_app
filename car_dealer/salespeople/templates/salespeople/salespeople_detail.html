@@ -1,4 +1,4 @@
-{% extends 'salespeople_list.html' %}
+{% extends 'salespeople/salespeople_list.html' %}
 
 {% block title %}Salespeople Details{% endblock %}
 
@@ -11,25 +11,36 @@
         <!-- Include additional fields if necessary -->
     </div>
 
+    <!-- Cars Sold Section -->
     <div>
-        <a href="{% url 'salespeople_edit' salespeople.id %}">Edit Salespeople</a> | 
-        <a href="{% url 'salespeople_delete' salespeople.id %}">Delete Salespeople</a>
+        <h3>Cars Sold</h3>
+        
+            <ul>
+                {% for car in salespeople.sold_cars.all %}
+                    <li>{{car.vin}}  {{ car.make }} {{ car.model }} - {{ car.year }} - {{car.price}} - Commission: ${{ car.calculate_commission }}</li>
+                {% empty %}
+                    <li>No cars sold.</li>
+                {% endfor %}
+            </ul>
+        
     </div>
-{% endblock %}
-{% extends 'salespeople_list.html' %}
 
-{% block title %}{% if salespeople %}Edit{% else %}Add{% endif %} Salespeople{% endblock %}
+    <!-- Customers Section -->
+    <div>
+        <h3>Customers</h3>
+        {% if salespeople.customers.all %}
+            <ul>
+                {% for customer in salespeople.customers.all %}
+                    <li>{{ customer.first_name }} {{ customer.last_name }}</li> <!-- Assuming the Customer model has first_name and last_name fields -->
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>No customers.</p>
+        {% endif %}
+    </div>
 
-{% block content %}
-    <h2>{% if salespeople %}Edit{% else %}Add{% endif %} Salespeople</h2>
-
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Save</button>
-    </form>
-
-    {% if salespeople %}
-        <a href="{% url 'salespeople_delete' salespeople.id %}">Delete this salespeople</a>
-    {% endif %}
+    <div>
+        <a href="{% url 'salespeople_edit' salespeople.id %}">Edit Salesperson</a> | 
+        <a href="{% url 'salespeople_delete' salespeople.id %}">Delete Salesperson</a>
+    </div>
 {% endblock %}

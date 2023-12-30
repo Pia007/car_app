@@ -27,8 +27,20 @@ in car_prod directory
     cars views fixed. 
     home page fixed
 
-    need to use insomnia to add data to database
     able to add cars to db by overriding dispatch method in views.py
 
     next fixed create and updates views to override dispatch method. Add salespeople and customers
+
+12/29/2023
+    Cars list and details done
+        need to add seller to the list
+        add mi to miles 
+    Salesperson list and details done
+        need to add link for each car sold to details using the vin number
+        add total commission for each salesperson and number of sales
+    Customer 
+        edit form and values
+        link customer names to cars in list if sold
+        link customer names to salesperson in list if sold
+    
     

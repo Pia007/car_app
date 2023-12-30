@@ -24,7 +24,7 @@ class CarDetailView(DetailView):
 class CarCreateView(CreateView):
     model = Car
     template_name = 'cars/car_form.html'
-    fields = ['make', 'model', 'year', 'color', 'price', 'mileage', 'sold', 'date_sold', 'salespeople', 'car_type']  # Added 'car_type'
+    fields = ['make', 'model', 'year', 'color', 'price', 'mileage', 'sold', 'date_sold', 'salesperson', 'car_type']  # Added 'car_type'
     success_url = reverse_lazy('car_list')
 
     def form_valid(self, form):
@@ -32,10 +32,12 @@ class CarCreateView(CreateView):
         messages.success(self.request, 'Car created successfully.')
         return response
 
+@method_decorator(csrf_exempt, name='dispatch')
 class CarUpdateView(UpdateView):
     model = Car
     template_name = 'cars/car_form.html'
-    fields = ['make', 'model', 'year', 'color', 'price', 'mileage', 'sold', 'date_sold', 'salespeople', 'car_type']  # Added 'car_type'
+    fields = ['make', 'model', 'year', 'color', 'price', 'mileage', 'sold', 'date_sold', 'salesperson', 'car_type']  # Added 'car_type'
+    success_url = reverse_lazy('car_list')
 
     def form_valid(self, form):
         response = super().form_valid(form)
