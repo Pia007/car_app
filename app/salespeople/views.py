@@ -37,4 +37,3 @@ class SalespeopleDeleteView(DeleteView):
     model = Salespeople
     template_name = 'salespeople/salespeople_confirm_delete.html'
     success_url = reverse_lazy('salespeople_list')
-

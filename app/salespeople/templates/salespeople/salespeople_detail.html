@@ -24,23 +24,8 @@
         </ul>
     </div>
 
-    <!-- Customers Section -->
-    <div>
-        <h3>Customers</h3>
-        {% if salespeople.customers.all %}
-            <ul>
-                {% for customer in salespeople.customers.all %}
-                    <li>{{ customer.first_name }} {{ customer.last_name }}</li>
-                {% endfor %}
-            </ul>
-        {% else %}
-            <p>No customers.</p>
-        {% endif %}
-    </div>
-
     <div>
         <a href="{% url 'salespeople_edit' salespeople.id %}">Edit Salesperson</a> | 
         <a href="{% url 'salespeople_delete' salespeople.id %}">Delete Salesperson</a>
     </div>
 {% endblock %}
-

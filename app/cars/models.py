@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils import timezone
 import string
 import random
 
@@ -43,6 +44,13 @@ class Car(models.Model):
         Note: This is a simplified example and doesn't follow the actual VIN standards.
         """
         return ''.join(random.choices(string.ascii_uppercase + string.digits, k=17))
+    
+    # def mark_as_sold(self, customer):
+    #     """ Mark the car as sold and assign the customer. """
+    #     self.sold = True
+    #     self.date_sold = timezone.now()
+    #     self.purchased_by = customer
+    #     self.save()
 
     def save(self, *args, **kwargs):
         # Generate VIN only if it doesn't exist
@@ -51,10 +59,6 @@ class Car(models.Model):
 
         # Save the Car instance first to get an ID
         super(Car, self).save(*args, **kwargs)
-
-        # Add to salespeople's cars_sold_by if the car is sold
-        # if self.sold and self.salesperson:
-        #     self.salesperson.cars_sold_by.add(self)
 
     def __str__(self):
         return f'{self.vin} - {self.year} {self.make} {self.model} - {self.car_type}'
