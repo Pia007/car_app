@@ -2,7 +2,7 @@
 
 {% block content %}
   <!-- Detail view content goes here -->
-  <div class="car-detail">
+  <div class="container">
     <h2>Car Details</h2>
     <p><strong>VIN:</strong> {{ car.vin }}</p>
     <p><strong>Make:</strong> {{ car.make }}</p>
@@ -21,10 +21,17 @@
       </p>
     {% endif %}
     <p><strong>Type:</strong> {{ car.get_car_type_display }}</p> <!-- Added line for car type -->
-
-    <a href="{% url 'car_edit' car.id %}">Edit</a> |
-    <a href="{% url 'car_delete' car.id %}">Delete</a> |
-    <a href="{% url 'car_list' %}">Back to List</a>
+    <div class="d-flex justify-content-between">
+      <div>
+        <a href="{% url 'car_edit' car.id %}" class="btn btn-primary">Edit</a> 
+        <a href="{% url 'car_delete' car.id %}"
+        class="btn btn-danger">Delete</a> 
+      </div>
+      <div>
+        <a href="{% url 'car_list' %}" class="btn btn-secondary">Back to List</a>
+      </div>
+    
+    <div>
   </div>
 {% endblock %}
 

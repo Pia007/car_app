@@ -15,6 +15,12 @@ class SalespeopleDetailView(DetailView):
     template_name = 'salespeople/salespeople_detail.html'
     context_object_name = 'salespeople'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        salesperson = self.get_object()
+        context['total_commission'] = salesperson.total_commission()
+        return context
+
 @method_decorator(csrf_exempt, name='dispatch')
 class SalespeopleCreateView(CreateView):
     model = Salespeople

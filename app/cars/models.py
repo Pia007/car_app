@@ -1,3 +1,4 @@
+import locale
 from django.db import models
 from django.utils import timezone
 import string
@@ -45,12 +46,9 @@ class Car(models.Model):
         """
         return ''.join(random.choices(string.ascii_uppercase + string.digits, k=17))
     
-    # def mark_as_sold(self, customer):
-    #     """ Mark the car as sold and assign the customer. """
-    #     self.sold = True
-    #     self.date_sold = timezone.now()
-    #     self.purchased_by = customer
-    #     self.save()
+    def formatted_price(self):
+        locale.setlocale(locale.LC_ALL, 'en_US.UTF-8')  # Set locale, e.g., 'en_US.UTF-8'
+        return locale.format_string("%d", self.price, grouping=True)
 
     def save(self, *args, **kwargs):
         # Generate VIN only if it doesn't exist

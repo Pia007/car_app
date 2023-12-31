@@ -1,44 +1,63 @@
 {% extends 'cars/base.html' %}
+
+{% load humanize %}
 <!-- {% load static %} -->
 {% block title %}Car List{% endblock %}
 
 {% block content %}
-    <h1>Car List</h1>
+    <div class="container">
+        <div class="row flex justify-content-between">
+            <h2>Car List</h2>
 
-    <a href="{% url 'car_new' %}">Add New Car</a>
+            <a href="{% url 'car_new' %}" class="btn btn-primary">Add Car</a>
+        </div>
 
-    {% if cars %}
-        <table>
-            <thead>
-                <tr>
-                    <th>VIN</th>
-                    <th>Make</th>
-                    <th>Model</th>
-                    <th>Year</th>
-                    <th>Color</th>
-                    <th>Car Type</th> <!-- New column header for Type -->
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for car in cars %}
-                <tr>
-                    <td>{{ car.vin }}</td>
-                    <td>{{ car.make }}</td>
-                    <td>{{ car.model }}</td>
-                    <td>{{ car.year }}</td>
-                    <td>{{ car.color }}</td>
-                    <td>{{ car.get_car_type_display }}</td> <!-- New column data for Type -->
-                    <td>
-                        <a href="{% url 'car_detail' car.id %}">View</a> |
-                        <a href="{% url 'car_edit' car.id %}">Edit</a> |
-                        <a href="{% url 'car_delete' car.id %}">Delete</a>
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    {% else %}
-        <p>No cars available.</p>
-    {% endif %}
+        {% if cars %}
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>VIN</th>
+                        <th>Make</th>
+                        <th>Model</th>
+                        <th>Price</th>
+                        <th>Year</th>
+                        <th>Color</th>
+                        <th>Car Type</th>
+                        <th>Sold</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for car in cars %}
+                    <tr>
+                        <td class="text-capitalize">{{ car.vin }}</td>
+                        <td class="text-capitalize">{{ car.make }}</td>
+                        <td class="text-capitalize">{{ car.model }}</td>
+                        <td class="text-capitalize">${{ car.formatted_price }}</td>
+                        <td class="text-capitalize">{{ car.year }}</td>
+                        <td class="text-capitalize">{{ car.color }}</td>
+                        <td>{{ car.get_car_type_display }}</td>
+                        <!-- if car is sold then display yes else display no -->
+
+                        <td>
+                            {% if car.sold %}
+                                <strong class="text-success">Yes</strong>
+                            {% else %}
+                                <strong class="text-danger">No</strong>
+                            {% endif %}
+                        </td> 
+                        <td>
+                            <a href="{% url 'car_edit' car.id %}" class="btn btn-primary">Edit</a>
+                            <a href="{% url 'car_detail' car.id %}" class="btn btn-success">View</a> 
+                            
+                            <a href="{% url 'car_delete' car.id %}" class="btn btn-danger">Delete</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p>No cars available.</p>
+        {% endif %}
+    </div>
 {% endblock %}

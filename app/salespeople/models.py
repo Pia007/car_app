@@ -1,3 +1,4 @@
+from decimal import Decimal
 from django.db import models
 from django.urls import reverse
 from django.core.validators import EmailValidator, RegexValidator
@@ -12,6 +13,15 @@ class Salespeople(models.Model):
     last_name = models.CharField(max_length=50)
     email = models.CharField(validators=[email_regex], max_length=100)
     phone_number = models.CharField(validators=[phone_regex], max_length=17, blank=True)  # Adjust max_length as needed
+
+    def total_commission(self):
+        total = sum(Decimal(car.calculate_commission()) for car in self.sold_cars.all() if car.sold)
+        return total.quantize(Decimal('0.00')) if total != 0 else Decimal('0.00')
+    
+    #caluclate total sales for saleperson 
+    def total_sales(self):
+        total = sum(Decimal(car.price) for car in self.sold_cars.all() if car.sold)
+        return total.quantize(Decimal('0.00')) if total != 0 else Decimal('0.00')
 
     def __str__(self):
         return f"{self.first_name} {self.last_name}"
