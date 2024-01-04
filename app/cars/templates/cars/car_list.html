@@ -7,7 +7,7 @@
 {% block content %}
     <div class="container">
         <div class="row flex justify-content-between">
-            <h2>Car List</h2>
+            <h2>Vehicle Inventory</h2>
 
             <a href="{% url 'car_new' %}" class="btn btn-primary">Add Car</a>
         </div>
@@ -30,12 +30,12 @@
                 <tbody>
                     {% for car in cars %}
                     <tr>
-                        <td class="text-capitalize">{{ car.vin }}</td>
-                        <td class="text-capitalize">{{ car.make }}</td>
-                        <td class="text-capitalize">{{ car.model }}</td>
-                        <td class="text-capitalize">${{ car.formatted_price }}</td>
-                        <td class="text-capitalize">{{ car.year }}</td>
-                        <td class="text-capitalize">{{ car.color }}</td>
+                        <td>{{ car.vin }}</td>
+                        <td>{{ car.make }}</td>
+                        <td>{{ car.model }}</td>
+                        <td>${{ car.formatted_price }}</td>
+                        <td>{{ car.year }}</td>
+                        <td>{{ car.color }}</td>
                         <td>{{ car.get_car_type_display }}</td>
                         <!-- if car is sold then display yes else display no -->
 

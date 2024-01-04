@@ -33,7 +33,8 @@ class Car(models.Model):
     ]
     car_type = models.CharField(max_length=15, choices=CAR_TYPE_CHOICES, default=SEDAN)
 
-    COMMISSION_RATE = 0.15 # 15% commission rate
+    COMMISSION_RATE = 0.20 # 20% commission rate
+
 
     def calculate_commission(self):
         commission =  self.price * self.COMMISSION_RATE
@@ -46,6 +47,10 @@ class Car(models.Model):
         """
         return ''.join(random.choices(string.ascii_uppercase + string.digits, k=17))
     
+    def formatted_mileage(self):
+        locale.setlocale(locale.LC_ALL, 'en_US.UTF-8')  # Set locale, e.g., 'en_US.UTF-8'
+        return locale.format_string("%d", self.mileage, grouping=True)
+    
     def formatted_price(self):
         locale.setlocale(locale.LC_ALL, 'en_US.UTF-8')  # Set locale, e.g., 'en_US.UTF-8'
         return locale.format_string("%d", self.price, grouping=True)
@@ -54,6 +59,14 @@ class Car(models.Model):
         # Generate VIN only if it doesn't exist
         if not self.vin:
             self.vin = self._generate_vin()
+
+        for field_name in ['make', 'model', 'color']:
+            val = getattr(self, field_name, False)
+            # if make is BMW make it all uppercase
+            if len(val) == 3:
+                setattr(self, field_name, val.upper())
+            else:
+                setattr(self, field_name, val.capitalize())
 
         # Save the Car instance first to get an ID
         super(Car, self).save(*args, **kwargs)
