@@ -1,4 +1,5 @@
 from decimal import Decimal
+import locale
 from django.db import models
 from django.urls import reverse
 from django.core.validators import EmailValidator, RegexValidator
@@ -18,10 +19,24 @@ class Salespeople(models.Model):
         total = sum(Decimal(car.calculate_commission()) for car in self.sold_cars.all() if car.sold)
         return total.quantize(Decimal('0.00')) if total != 0 else Decimal('0.00')
     
-    #caluclate total sales for saleperson 
+    def formatted_commission(self):
+        locale.setlocale(locale.LC_ALL, 'en_US.UTF-8')  # Set locale, e.g., 'en_US.UTF-8'
+        return locale.format_string("%d", self.total_commission(), grouping=True)
+    
+    #calculate total sales for saleperson 
     def total_sales(self):
         total = sum(Decimal(car.price) for car in self.sold_cars.all() if car.sold)
         return total.quantize(Decimal('0.00')) if total != 0 else Decimal('0.00')
+    
+    def save(self, *args, **kwargs):
+
+        for field_name in ['first_name', 'last_name']:
+            val = getattr(self, field_name, False)
+            
+            if val:
+                setattr(self, field_name, val.capitalize())
+
+        super(Salespeople, self).save(*args, **kwargs)
 
     def __str__(self):
         return f"{self.first_name} {self.last_name}"

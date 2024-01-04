@@ -8,7 +8,14 @@
     <form method="post">
       {% csrf_token %}
       <button type="submit" class="btn btn-danger">Yes, delete</button>
-      <a href="{% url 'car_detail' object.id %}" class="btn btn-secondary">Cancel</a>
+      {% url 'car_list' as car_list_url %}
+      {% if request.path == car_list_url %}
+        <a href="{{ car_list_url }}" class="btn btn-secondary">Cancel</a>
+      {% else %}
+        <a href="{% url 'car_detail' object.id %}" class="btn btn-secondary">Cancel</a>
+      {% endif %}
+      
+      <!-- <a href="{% url 'car_detail' object.id %}" class="btn btn-secondary">Cancel</a> -->
     </form>
   </div>
 {% endblock %}

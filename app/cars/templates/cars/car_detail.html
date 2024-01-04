@@ -9,8 +9,8 @@
     <p><strong>Model:</strong> {{ car.model }}</p>
     <p><strong>Year:</strong> {{ car.year }}</p>
     <p><strong>Color:</strong> {{ car.color }}</p>
-    <p><strong>Price:</strong> {{ car.price }}</p>
-    <p><strong>Mileage:</strong> {{ car.mileage }}</p>
+    <p><strong>Price:</strong> ${{ car.formatted_price }}</p>
+    <p><strong>Mileage:</strong> {{ car.formatted_mileage }}</p>
     <p><strong>Sold:</strong> {{ car.sold }}</p>
     <p><strong>Date Sold:</strong> {{ car.date_sold }}</p>
     {% if car.salesperson %}

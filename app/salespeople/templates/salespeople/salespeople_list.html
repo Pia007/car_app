@@ -8,7 +8,7 @@
     
     <div class="container">
         <div class="row flex justify-content-between">
-        <h2>Salespeople List</h2>
+        <h2>Salespeople</h2>
 
         <a href="{% url 'salespeople_new' %}" class="btn btn-primary">Add Salesperson</a>
 
@@ -26,9 +26,9 @@
                 <tbody>
                     {% for salespeople in salespeople %}
                     <tr>
-                        <td class="text-capitalize">{{ salespeople.first_name }}</td>
-                        <td class="text-capitalize">{{ salespeople.last_name }}</td>
-                        <td class="text-capitalize">
+                        <td>{{ salespeople.first_name }}</td>
+                        <td>{{ salespeople.last_name }}</td>
+                        <td>
                             {% if salespeople.total_sales %}
                                 <strong class="text-success">${{ salespeople.total_sales|floatformat:2|intcomma }}</strong>
                             {% else %}

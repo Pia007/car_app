@@ -13,7 +13,6 @@ class CarForm(forms.ModelForm):
         required=False,  # Make it optional
         widget=forms.Select(attrs={'onchange': 'updateSalespersonDetails();'})  # Add JavaScript to trigger an update
     )
-
     class Meta:
         model = Car
         fields = [
