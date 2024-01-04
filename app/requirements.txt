@@ -5,3 +5,5 @@ djangorestframework==3.12.4
 python-decouple==3.4
 psycopg2-binary==2.9.6
 django-phonenumber-field[phonenumbers]==7.3.0
+pytest==6.2.5
+pytest-django==4.4.0
