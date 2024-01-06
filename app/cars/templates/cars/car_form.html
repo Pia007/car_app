@@ -5,47 +5,32 @@
 
   <form method="post">
     {% csrf_token %}
-    <p>
-      {{ form.make.label_tag }}<br>
-      {{ form.make }}
-    </p>
-    <p>
-      {{ form.model.label_tag }}<br>
-      {{ form.model }}
-    </p>
-    <p>
-      {{ form.year.label_tag }}<br>
-      {{ form.year }}
-    </p>
-    <p>
-      {{ form.color.label_tag }}<br>
-      {{ form.color }}
-    </p>
-    <p>
-      {{ form.price.label_tag }}<br>
-      {{ form.price }}
-    </p>
-    <p>
-      {{ form.mileage.label_tag }}<br>
-      {{ form.mileage }}
-    </p>
-    <p>
-      {{ form.sold.label_tag }}<br>
-      {{ form.sold }}
-    </p>
-    <p>
-      {{ form.date_sold.label_tag }}<br>
-      {{ form.date_sold }}
-    </p>
-    <p>
-      {{ form.salespeople.label_tag }}<br>
-      {{ form.salesperson }}
-    </p>
-    <p>
-      {{ form.car_type.label_tag }}<br>
-      {{ form.car_type }}
-    </p>
+
+    <!-- Display non-field-specific errors -->
+    {% if form.non_field_errors %}
+        <div class="alert alert-danger">
+            {% for error in form.non_field_errors %}
+                {{ error }}
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <!-- Display field-specific errors and fields -->
+    {% for field in form %}
+        <p>
+            {{ field.label_tag }}<br>
+            {{ field }}
+            {% if field.errors %}
+                <div class="alert alert-danger">
+                    {% for error in field.errors %}
+                        {{ error }}
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </p>
+    {% endfor %}
+
     <button type="submit" class="btn btn-primary">{% if object %}Update{% else %}Create{% endif %} Car</button>
     <a href="{% url 'car_list' %}" class="btn btn-secondary">Cancel</a>
-  </form>
+</form>
 {% endblock %}

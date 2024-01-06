@@ -22,14 +22,19 @@
             {{ form.phone_number.label_tag }}<br>
             {{ form.phone_number }}
         </p>
-        <!-- Add other fields here as needed -->
+        <!-- Dropdown for unsold cars -->
+        <p>
+            {{ form.unsold_cars.label_tag }}<br>
+            {{ form.unsold_cars }}
+        </p>
         
         <button type="submit"  class="btn btn-primary">{% if object %}Update{% else %}Create{% endif %} Salesperson</button>
         <a href="{% url 'salespeople_list' %}" class="btn btn-secondary">Cancel</a>
     </form>
 
+    <!-- Uncomment if you want to provide an option to delete the salesperson -->
     <!-- {% if salespeople %}
-        <a href="{% url 'salespeople_delete' salespeople.id %}">Delete this salesperson</a>
+        <a href="{% url 'salespeople_delete' salespeople.id %}" class="btn btn-danger">Delete this salesperson</a>
     {% endif %} -->
 {% endblock %}
 

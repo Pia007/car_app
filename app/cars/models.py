@@ -1,5 +1,6 @@
 import locale
 from django.db import models
+from django.forms import ValidationError
 from django.shortcuts import get_object_or_404, redirect
 from django.utils import timezone
 import string
@@ -20,6 +21,7 @@ class Car(models.Model):
     # New field for car type
     CONVERTIBLE = 'Convertible'
     COUPE = 'Coupe'
+    HATCHBACK = 'Hatchback'
     SEDAN = 'Sedan'
     SUV = 'SUV'
     TRUCK = 'Truck'
@@ -27,6 +29,7 @@ class Car(models.Model):
     CAR_TYPE_CHOICES = [
         (CONVERTIBLE, 'Convertible'),
         (COUPE, 'Coupe'),
+        (HATCHBACK, 'Hatchback'),
         (SEDAN, 'Sedan'),
         (SUV, 'SUV'),
         (TRUCK, 'Truck'),
@@ -61,8 +64,20 @@ class Car(models.Model):
         self.salesperson = None  # Set the salesperson to None
         self.save()
 
+    def clean(self):
+        # Validation logic
+        if self.sold and (not self.date_sold or not self.salesperson):
+            raise ValidationError("Date sold and salesperson are required when the car is sold.")
+
+        if self.salesperson and (not self.date_sold or not self.sold):
+            raise ValidationError("Sold status and date sold are required when a Salesperson is assigned.")
+
+        if self.date_sold and (not self.salesperson or not self.sold):
+            raise ValidationError("Sold status and Salesperson are required when a sale date is set.")
     
+
     def save(self, *args, **kwargs):
+        self.clean()
         # Generate VIN only if it doesn't exist
         if not self.vin:
             self.vin = self._generate_vin()
