@@ -44,4 +44,10 @@ in car_prod directory
         link customer names to salesperson in list if sold
         add city zip state to list and address 2
     
+12/30/2023 removed customers    
+    could not render salesperson after adding customer
+    error was at end of saleperson model absolute url salespeople_new
     
+superuser
+    username: pia007
+    password: agape321
