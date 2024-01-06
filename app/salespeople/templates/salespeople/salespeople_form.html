@@ -1,6 +1,7 @@
 {% extends 'salespeople/salespeople_list.html' %}
 
 {% block content %}
+<div class="container">
     <h2>{% if object %}Edit{% else %}Add{% endif %} Salesperson</h2>
 
     <form method="post">
@@ -33,4 +34,5 @@
         <button type="submit" class="btn btn-primary">{% if object %}Update{% else %}Create{% endif %} Salesperson</button>
         <a href="{% url 'salespeople_list' %}" class="btn btn-secondary">Cancel</a>
     </form>
+</div>
 {% endblock %}

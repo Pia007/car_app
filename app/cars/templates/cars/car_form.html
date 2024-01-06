@@ -1,36 +1,38 @@
 {% extends 'cars/car_list.html' %}
 
 {% block content %}
-  <h2>{% if object %}Edit{% else %}Add{% endif %} Car</h2>
+<div class="container">
+    <h2>{% if object %}Edit{% else %}Add{% endif %} Car</h2>
 
-  <form method="post">
-    {% csrf_token %}
+    <form method="post">
+        {% csrf_token %}
 
-    <!-- Display non-field-specific errors -->
-    {% if form.non_field_errors %}
-        <div class="alert alert-danger">
-            {% for error in form.non_field_errors %}
-                {{ error }}
-            {% endfor %}
-        </div>
-    {% endif %}
+        <!-- Display non-field-specific errors -->
+        {% if form.non_field_errors %}
+            <div class="alert alert-danger">
+                {% for error in form.non_field_errors %}
+                    {{ error }}
+                {% endfor %}
+            </div>
+        {% endif %}
 
-    <!-- Display field-specific errors and fields -->
-    {% for field in form %}
-        <p>
-            {{ field.label_tag }}<br>
-            {{ field }}
-            {% if field.errors %}
-                <div class="alert alert-danger">
-                    {% for error in field.errors %}
-                        {{ error }}
-                    {% endfor %}
-                </div>
-            {% endif %}
-        </p>
-    {% endfor %}
+        <!-- Display field-specific errors and fields -->
+        {% for field in form %}
+            <p>
+                {{ field.label_tag }}<br>
+                {{ field }}
+                {% if field.errors %}
+                    <div class="alert alert-danger">
+                        {% for error in field.errors %}
+                            {{ error }}
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </p>
+        {% endfor %}
 
-    <button type="submit" class="btn btn-primary">{% if object %}Update{% else %}Create{% endif %} Car</button>
-    <a href="{% url 'car_list' %}" class="btn btn-secondary">Cancel</a>
-</form>
+        <button type="submit" class="btn btn-primary">{% if object %}Update{% else %}Create{% endif %} Car</button>
+        <a href="{% url 'car_list' %}" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>
 {% endblock %}

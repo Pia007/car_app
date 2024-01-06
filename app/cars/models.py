@@ -66,6 +66,11 @@ class Car(models.Model):
 
     def clean(self):
         # Validation logic
+        #check if car make, model, year, year and mileage is alread in a car , if it is then raise validation error
+        if self.make and self.model and self.year and self.color and self.mileage:
+            if Car.objects.filter(make__iexact=self.make, model__iexact=self.model, year=self.year, color__iexact=self.color, mileage=self.mileage, car_type=self.car_type).exclude(id=self.id).exists():
+                raise ValidationError("Car already exists")
+            
         if self.sold and (not self.date_sold or not self.salesperson):
             raise ValidationError("Date sold and salesperson are required when the car is sold.")
 
@@ -74,6 +79,8 @@ class Car(models.Model):
 
         if self.date_sold and (not self.salesperson or not self.sold):
             raise ValidationError("Sold status and Salesperson are required when a sale date is set.")
+        
+
     
 
     def save(self, *args, **kwargs):
