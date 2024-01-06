@@ -5,37 +5,32 @@
 
     <form method="post">
         {% csrf_token %}
-        
-        <p>
-            {{ form.first_name.label_tag }}<br>
-            {{ form.first_name }}
-        </p>
-        <p>
-            {{ form.last_name.label_tag }}<br>
-            {{ form.last_name }}
-        </p>
-        <p>
-            {{ form.email.label_tag }}<br>
-            {{ form.email }}
-        </p>
-        <p>
-            {{ form.phone_number.label_tag }}<br>
-            {{ form.phone_number }}
-        </p>
-        <!-- Dropdown for unsold cars -->
-        <p>
-            {{ form.unsold_cars.label_tag }}<br>
-            {{ form.unsold_cars }}
-        </p>
-        
-        <button type="submit"  class="btn btn-primary">{% if object %}Update{% else %}Create{% endif %} Salesperson</button>
+
+        <!-- Display non-field-specific errors -->
+        {% if form.non_field_errors %}
+            <div class="alert alert-danger">
+                {% for error in form.non_field_errors %}
+                    {{ error }}
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        <!-- Display field-specific errors and fields -->
+        {% for field in form %}
+            <p>
+                {{ field.label_tag }}<br>
+                {{ field }}
+                {% if field.errors %}
+                    <div class="alert alert-danger">
+                        {% for error in field.errors %}
+                            {{ error }}
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </p>
+        {% endfor %}
+
+        <button type="submit" class="btn btn-primary">{% if object %}Update{% else %}Create{% endif %} Salesperson</button>
         <a href="{% url 'salespeople_list' %}" class="btn btn-secondary">Cancel</a>
     </form>
-
-    <!-- Uncomment if you want to provide an option to delete the salesperson -->
-    <!-- {% if salespeople %}
-        <a href="{% url 'salespeople_delete' salespeople.id %}" class="btn btn-danger">Delete this salesperson</a>
-    {% endif %} -->
 {% endblock %}
-
-
