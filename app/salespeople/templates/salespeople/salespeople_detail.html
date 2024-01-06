@@ -67,7 +67,9 @@
                 <a href="{% url 'salespeople_edit' salespeople.id %}" class="btn btn-primary">Edit Salesperson</a> 
                 <a href="{% url 'salespeople_delete' salespeople.id %}" class="btn btn-danger">Delete Salesperson</a>
             </div>
-            <div class="d-flex">
+            <div >
+                <!-- back to car list -->
+                <a href="{% url 'car_list' %}" class="btn btn-secondary">Back to Car List</a>
                 <a href="{% url 'salespeople_list' %}" class="btn btn-secondary">Back to Salespeople List</a>
             </div>
         </div>
