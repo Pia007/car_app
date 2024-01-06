@@ -1,4 +1,5 @@
 from django import forms
+from django.shortcuts import get_object_or_404, redirect
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
@@ -81,3 +82,15 @@ class CarDeleteView(DeleteView):
     model = Car
     template_name = 'cars/car_confirm_delete.html'
     success_url = reverse_lazy('car_list')
+
+def mark_car_as_not_sold(request, car_id):
+    car = get_object_or_404(Car, pk=car_id)
+    
+    # Call the method to mark the car as not sold
+    car.mark_as_not_sold()
+    
+    # Display a success message
+    messages.success(request, 'Car marked as not sold successfully.')
+    
+    # Redirect back to a relevant page, such as the car list or salesperson detail
+    return redirect('car_list')  # Modify this as per your need

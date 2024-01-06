@@ -1,5 +1,6 @@
 import locale
 from django.db import models
+from django.shortcuts import get_object_or_404, redirect
 from django.utils import timezone
 import string
 import random
@@ -54,7 +55,13 @@ class Car(models.Model):
     def formatted_price(self):
         locale.setlocale(locale.LC_ALL, 'en_US.UTF-8')  # Set locale, e.g., 'en_US.UTF-8'
         return locale.format_string("%d", self.price, grouping=True)
+    
+    def mark_as_not_sold(self):
+        self.sold = False
+        self.salesperson = None  # Set the salesperson to None
+        self.save()
 
+    
     def save(self, *args, **kwargs):
         # Generate VIN only if it doesn't exist
         if not self.vin:
