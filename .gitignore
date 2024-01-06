@@ -2,3 +2,10 @@
 
 #add vscode 
 app/.vscode
+
+#add virtualenv
+venv/
+.venv/
+
+#add notes.txt
+notes.txt  
