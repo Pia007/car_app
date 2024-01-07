@@ -13,7 +13,54 @@
         </div>
 
         <!-- Table Order By-->
-        <div class="d-flex justify-content-end mt-2">
+        <div class="d-flex justify-content-between mt-2">
+            
+       
+        <!-- Filter by color -->
+        
+            <form method="GET">
+                <label for="make_filter"> Make:</label>
+                <select name="make_filter" id="make_filter">
+                    <option value="">All Makes</option>
+                    {% for make in makes %}
+                        <option value="{{ make }}">{{ make }}</option>
+                    {% endfor %}
+                </select>
+
+                <label for="model_filter"> Model:</label>
+                <select name="model_filter" id="model_filter">
+                    <option value="">All Models</option>
+                    {% for model in models %}
+                        <option value="{{ model }}">{{ model }}</option>
+                    {% endfor %}
+                </select>
+
+                <label for="color_filter"> Color:</label>
+                <select name="color_filter" id="color_filter">
+                    <option value="">All Colors</option>
+                        {% for color in colors %}
+                    <option value="{{ color }}">{{ color }}</option>
+                    {% endfor %}
+                </select>
+
+                <label for="year_filter"> Year:</label>
+                <select name="year_filter" id="year_filter">
+                    <option value="">All Years</option>
+                    {% for year in years %}
+                        <option value="{{ year }}">{{ year }}</option>
+                    {% endfor %}
+                </select>
+
+                <label for="car_type_filter"> Car Type:</label>
+                <select name="car_type_filter" id="car_type_filter">
+                    <option value="">All Car Types</option>
+                    {% for car_type in car_types %}
+                        <option value="{{ car_type }}">{{ car_type }}</option>
+                    {% endfor %}
+                </select>
+                <button type="submit" class="btn btn-outline-success">Filter</button>
+            </form>
+
             <div>
                 <a href="?order={% if request.GET.order == 'price' %}-{% endif %}price" class="btn btn-outline-primary">
                     Price {% if request.GET.order == 'price' %}(Descending){% else %}(Ascending){% endif %}

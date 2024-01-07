@@ -35,6 +35,29 @@ class CarListView(ListView):
     def get_queryset(self):
         queryset = super().get_queryset()
         order = self.request.GET.get('order')
+        color_filter = self.request.GET.get('color_filter') 
+        make_filter = self.request.GET.get('make_filter')
+        model_filter = self.request.GET.get('model_filter')
+        year_filter = self.request.GET.get('year_filter')
+        car_type_filter = self.request.GET.get('car_type_filter')
+        # sold_filter = self.request.GET.get('sold_filter')
+
+        # Apply color filter if a color is selected
+        if color_filter:
+            queryset = queryset.filter(color=color_filter)
+
+        if make_filter:
+            queryset = queryset.filter(make=make_filter)
+
+        if model_filter:
+            queryset = queryset.filter(model=model_filter)
+
+        if year_filter:
+            queryset = queryset.filter(year=year_filter)
+
+        if car_type_filter:
+            queryset = queryset.filter(car_type=car_type_filter)
+        
 
         if order in ['price', '-price']:
             # Annotate with total sales, defaulting to 0.00 if there are no sales
@@ -43,6 +66,26 @@ class CarListView(ListView):
             ).order_by(order)
     
         return queryset
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        
+        makes = Car.objects.values_list('make', flat=True).distinct()
+        models = Car.objects.values_list('model', flat=True).distinct()
+        colors = Car.objects.values_list('color', flat=True).distinct()
+        years = Car.objects.values_list('year', flat=True).distinct()
+        car_types = Car.objects.values_list('car_type', flat=True).distinct()
+        
+        # Add the distinct colors to the context
+        
+        context['makes'] = makes
+        context['models'] = models
+        context['colors'] = colors
+        context['years'] = years
+        context['car_types'] = car_types
+        
+        
+        return context
 
 class CarDetailView(DetailView):
     model = Car
