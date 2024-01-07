@@ -79,10 +79,7 @@ class Car(models.Model):
 
         if self.date_sold and (not self.salesperson or not self.sold):
             raise ValidationError("Sold status and Salesperson are required when a sale date is set.")
-        
-
     
-
     def save(self, *args, **kwargs):
         self.clean()
         # Generate VIN only if it doesn't exist
