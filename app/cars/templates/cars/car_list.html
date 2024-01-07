@@ -12,6 +12,15 @@
             <a href="{% url 'car_new' %}" class="btn btn-info">Add Car</a>
         </div>
 
+        <!-- Table Order By-->
+        <div class="d-flex justify-content-end mt-2">
+            <div>
+                <a href="?order={% if request.GET.order == 'price' %}-{% endif %}price" class="btn btn-outline-primary">
+                    Price {% if request.GET.order == 'price' %}(Descending){% else %}(Ascending){% endif %}
+                </a>
+            </div>
+        </div>
+
         {% if cars %}
             <table class="table">
                 <thead>
@@ -38,7 +47,6 @@
                         <td>{{ car.year }}</td>
                         <td>{{ car.color }}</td>
                         <td>{{ car.get_car_type_display }}</td>
-                        <!-- if car is sold then display yes else display no -->
 
                         <td>
                             {% if car.sold %}

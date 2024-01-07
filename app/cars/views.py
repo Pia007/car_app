@@ -7,12 +7,13 @@ from django.urls import reverse_lazy
 from django.contrib import messages
 from .models import Car
 from salespeople.models import Salespeople
+from django.db.models import Count, Sum, Value, DecimalField
 
 class CarForm(forms.ModelForm):
     salesperson = forms.ModelChoiceField(
         queryset=Salespeople.objects.all(),
         required=False,  # Make it optional
-        widget=forms.Select(attrs={'onchange': 'updateSalespersonDetails();'})  # Add JavaScript to trigger an update
+        widget=forms.Select(attrs={'onchange': 'updateSalespersonDetails();'})  
     )
     class Meta:
         model = Car
@@ -30,6 +31,18 @@ class CarListView(ListView):
     model = Car
     template_name = 'cars/car_list.html'
     context_object_name = 'cars'
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        order = self.request.GET.get('order')
+
+        if order in ['price', '-price']:
+            # Annotate with total sales, defaulting to 0.00 if there are no sales
+            queryset = queryset.annotate(
+                total_sales_price=Sum('price', default=Value(0.00), output_field=DecimalField())
+            ).order_by(order)
+    
+        return queryset
 
 class CarDetailView(DetailView):
     model = Car
