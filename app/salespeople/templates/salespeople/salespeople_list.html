@@ -8,11 +8,24 @@
     
     <div class="container">
         <div class="row flex justify-content-between">
-        <h2>Salespeople</h2>
+            <h2>Salespeople</h2>
 
-        <a href="{% url 'salespeople_new' %}" class="btn btn-primary">Add Salesperson</a>
-
+            <a href="{% url 'salespeople_new' %}" class="btn btn-primary">Add Salesperson</a>
         </div>
+
+        <!-- Table Order By-->
+        <div class="d-flex justify-content-end mt-2">
+            <div>
+                <a href="?order={% if request.GET.order == 'total_sales_amount' %}-{% endif %}total_sales_amount" class="btn btn-outline-primary">
+                    Total Sales {% if request.GET.order == 'total_sales_amount' %}(Descending){% else %}(Ascending){% endif %}
+                </a>
+                <a href="?order={% if request.GET.order == 'cars_sold_count' %}-{% endif %}cars_sold_count" class="btn btn-outline-primary">
+                    Cars Sold {% if request.GET.order == 'cars_sold_count' %}(Descending){% else %}(Ascending){% endif %}
+                </a>
+            </div>
+        </div>
+
+        <!-- Table -->
         {% if salespeople %}
             <table class="table">
                 <thead>
@@ -20,6 +33,7 @@
                         <th>First Name</th>
                         <th>Last Name</th>
                         <th>Sales</th>
+                        <th>Vehicle Count</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -32,8 +46,9 @@
                             {% if salespeople.total_sales %}
                                 <strong class="text-success">${{ salespeople.total_sales|floatformat:2|intcomma }}</strong>
                             {% else %}
-                                <strong class="text-danger">None</strong>
+                                <strong class="text-danger">${{ salespeople.total_sales}}</strong>
                             {% endif %}<br></td>
+                        <td>{{ salespeople.sold_cars.count }}</td>
                         <td>
                             <a href="{% url 'salespeople_edit' salespeople.id %}" class="btn btn-primary">Edit</a>  
                             <a href="{% url 'salespeople_detail' salespeople.id %}" class="btn btn-success">View</a>  
@@ -46,7 +61,5 @@
         {% else %}
             <p>No salespeople available.</p>
         {% endif %}
-
-        
     </div>
 {% endblock %}
