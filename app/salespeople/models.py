@@ -36,6 +36,11 @@ class Salespeople(models.Model):
                     for car in self.sold_cars.all() if car.sold)
         return total.quantize(Decimal('0.00')) if total != 0 else Decimal('0.00')
     
+    # calculate total cars sold by saleperson
+    def total_cars_sold(self):
+        total = sum(1 for car in self.sold_cars.all() if car.sold)
+        return total
+    
     def clean(self):
         #check if first name and lad name is already in database, if they are then raise validation error
         if self.first_name and self.last_name:
