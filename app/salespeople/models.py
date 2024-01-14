@@ -28,6 +28,7 @@ class Salespeople(models.Model):
         __str__: Returns the string representation of the salesperson.
         get_absolute_url: Returns the absolute URL of the salesperson.
     """
+    
     phone_regex = RegexValidator(
         regex=r'^\+?1?\d{9,15}$', 
         message="Phone number must be entered in the format: '999-999-9999'. Up to 15 digits allowed."
