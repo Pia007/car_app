@@ -1,37 +1,36 @@
 {% extends "cars/car_list.html" %}
 
 {% block content %}
-  <!-- Detail view content goes here -->
-  <div class="container">
-    <h2>Car Details</h2>
-    <p><strong>VIN:</strong> {{ car.vin }}</p>
-    <p><strong>Make:</strong> {{ car.make }}</p>
-    <p><strong>Model:</strong> {{ car.model }}</p>
-    <p><strong>Year:</strong> {{ car.year }}</p>
-    <p><strong>Color:</strong> {{ car.color }}</p>
-    <p><strong>Price:</strong> ${{ car.formatted_price }}</p>
-    <p><strong>Mileage:</strong> {{ car.formatted_mileage }}</p>
-    <p><strong>Sold:</strong> {{ car.sold }}</p>
-    <p><strong>Date Sold:</strong> {{ car.date_sold }}</p>
-    {% if car.salesperson %}
-      <p><strong>Salesperson:</strong> 
-        <a href="{% url 'salespeople_detail' car.salesperson.id %}">
-          {{ car.salesperson.first_name }} {{ car.salesperson.last_name}}
-        </a>
-      </p>
-    {% endif %}
-    <p><strong>Type:</strong> {{ car.get_car_type_display }}</p> <!-- Added line for car type -->
-    <div class="d-flex justify-content-between">
-      <div>
-        <a href="{% url 'car_edit' car.id %}" class="btn btn-primary">Edit</a> 
-        <a href="{% url 'car_delete' car.id %}"
-        class="btn btn-danger">Delete</a> 
-      </div>
-      <div>
-        <a href="{% url 'car_list' %}" class="btn btn-secondary">Back to List</a>
-      </div>
-    
-    <div>
-  </div>
+    <div class="container text-light">
+        <h2>Car Details</h2>
+        <p><strong>VIN:</strong> {{ car.vin }}</p>
+        <p><strong>Make:</strong> {{ car.make }}</p>
+        <p><strong>Model:</strong> {{ car.model }}</p>
+        <p><strong>Year:</strong> {{ car.year }}</p>
+        <p><strong>Color:</strong> {{ car.color }}</p>
+        <p><strong>Price:</strong> ${{ car.formatted_price }}</p>
+        <p><strong>Mileage:</strong> {{ car.formatted_mileage }}</p>
+        <p><strong>Sold:</strong> {{ car.sold }}</p>
+        <p><strong>Date Sold:</strong> {{ car.date_sold }}</p>
+        {% if car.salesperson %}
+        <p><strong>Salesperson:</strong> 
+            <a href="{% url 'salespeople_detail' car.salesperson.id %}">
+            {{ car.salesperson.first_name }} {{ car.salesperson.last_name}}
+            </a>
+        </p>
+        {% endif %}
+        <p><strong>Type:</strong> {{ car.get_car_type_display }}</p> <!-- Added line for car type -->
+        <div class="d-flex justify-content-between">
+        <div>
+            <a href="{% url 'car_edit' car.id %}" class="btn btn-primary">Edit</a> 
+            <a href="{% url 'car_delete' car.id %}"
+            class="btn btn-danger">Delete</a> 
+        </div>
+        <div>
+            <a href="{% url 'car_list' %}" class="btn btn-secondary">Back to List</a>
+        </div>
+        
+        <div>
+    </div>
 {% endblock %}
 

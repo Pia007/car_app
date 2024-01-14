@@ -1,10 +1,10 @@
 {% extends 'cars/car_list.html' %}
 
 {% block content %}
-<div class="container">
-    <h2>{% if object %}Edit{% else %}Add{% endif %} Car</h2>
+<div class="container text-light">
+    <h2 class="my-3">{% if object %}Edit{% else %}Add{% endif %} Car</h2>
 
-    <form method="post">
+    <form method="post" class="border border-start-0 border-end-0 border-bottom-0 border-info py-3">
         {% csrf_token %}
 
         <!-- Display non-field-specific errors -->

@@ -40,7 +40,7 @@ class CarListView(ListView):
         model_filter = self.request.GET.get('model_filter')
         year_filter = self.request.GET.get('year_filter')
         car_type_filter = self.request.GET.get('car_type_filter')
-        # sold_filter = self.request.GET.get('sold_filter')
+        price_filter = self.request.GET.get('price_filter')
 
         # Apply color filter if a color is selected
         if color_filter:
@@ -58,16 +58,27 @@ class CarListView(ListView):
         if car_type_filter:
             queryset = queryset.filter(car_type=car_type_filter)
         
+        if price_filter:
+            queryset = queryset.filter(price=price_filter)
+            
+        #order by mileage without decimals
+        if order in ['mileage', '-mileage']:
+            # Annotate with total sales, defaulting to 0.00 if there are no sales
+            queryset = queryset.annotate(
+                total_sales_mileage=Sum('mileage', default=Value(0.00), output_field=DecimalField())
+            ).order_by(order)
 
         if order in ['price', '-price']:
             # Annotate with total sales, defaulting to 0.00 if there are no sales
             queryset = queryset.annotate(
                 total_sales_price=Sum('price', default=Value(0.00), output_field=DecimalField())
             ).order_by(order)
+            
+
     
         return queryset
     
-    def get_context_data(self, **kwargs):
+    def get_context_data(self, **kwargs):   
         context = super().get_context_data(**kwargs)
         
         makes = Car.objects.values_list('make', flat=True).distinct()
@@ -76,14 +87,11 @@ class CarListView(ListView):
         years = Car.objects.values_list('year', flat=True).distinct()
         car_types = Car.objects.values_list('car_type', flat=True).distinct()
         
-        # Add the distinct colors to the context
-        
         context['makes'] = makes
         context['models'] = models
         context['colors'] = colors
         context['years'] = years
         context['car_types'] = car_types
-        
         
         return context
 
@@ -103,11 +111,9 @@ class CarCreateView(CreateView):
         # Get the selected salesperson from the form
         selected_salesperson = form.cleaned_data['salesperson']
         
-        # Update the salesperson's details (modify this based on your needs)
         if selected_salesperson:
             selected_salesperson.first_name = form.cleaned_data['salesperson'].first_name
             selected_salesperson.last_name = form.cleaned_data['salesperson'].last_name
-            # Add more fields as needed
             
             selected_salesperson.save()
         
@@ -141,12 +147,18 @@ class CarDeleteView(DeleteView):
 
 def mark_car_as_not_sold(request, car_id):
     car = get_object_or_404(Car, pk=car_id)
-    
-    # Call the method to mark the car as not sold
-    car.mark_as_not_sold()
-    
-    # Display a success message
-    messages.success(request, 'Car marked as not sold successfully.')
-    
+
+    # Update the car status
+    car.sold = False
+    car.date_sold = None  # Clear the date_sold field
+    car.salesperson = None  # Clear the salesperson field
+
+    # Save the car instance
+    try:
+        car.save()
+        messages.success(request, 'Car marked as not sold successfully.')
+    except forms.ValidationError as e:
+        messages.error(request, 'Error: ' + str(e))
+
     # Redirect back to a relevant page, such as the car list or salesperson detail
-    return redirect('car_list')  # Modify this as per your need
+    return redirect('salespeople_detail', salesperson_id=car.salesperson_id) if car.salesperson_id else redirect('car_list')

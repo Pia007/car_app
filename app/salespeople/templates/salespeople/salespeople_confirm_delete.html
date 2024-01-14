@@ -3,13 +3,14 @@
 {% block title %}Confirm Delete Salesperson{% endblock %}
 
 {% block content %}
-    <h2>Delete Salesperson</h2>
-    <p>Are you sure you want to delete "{{ object }}"?</p>
-    <!-- <p>Are you sure you want to delete "{{ salespeople.first_name }} {{ salespeople.last_name }}"?</p> -->
+    <div class="container text-center bg-dark py-4">
+        <h2 class="fw-bold text-warning my-3">WARNING!<br> THIS ACTION CANNOT BE REVERSED</h2>
+        <h3 class="fw-bold text-light">Are you sure you want to delete "<span class="text-danger">{{ object }}</span>"?</h3>
 
-    <form method="post">
-        {% csrf_token %}
-        <button type="submit" class="btn btn-danger">Yes, delete</button>
-        <a href="{% url 'salespeople_detail'  object.id %}" class="btn btn-secondary">Cancel</a>
-    </form>
+        <form method="post" class="my-4">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger">Yes, delete</button>
+            <a href="{% url 'salespeople_detail'  object.id %}" class="btn btn-secondary">Cancel</a>
+        </form>
+    </div>
 {% endblock %}

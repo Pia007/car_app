@@ -1,21 +1,22 @@
 {% extends "cars/car_list.html" %}
 
-{% block content %}
-  <div class="car-delete-confirmation">
-    <h2>Delete Car</h2>
-    <p>Are you sure you want to delete "{{ object }}"?</p>
+{% block title %}Confirm Delete Car{% endblock %}
 
-    <form method="post">
-      {% csrf_token %}
-      <button type="submit" class="btn btn-danger">Yes, delete</button>
-      {% url 'car_list' as car_list_url %}
-      {% if request.path == car_list_url %}
-        <a href="{{ car_list_url }}" class="btn btn-secondary">Cancel</a>
-      {% else %}
-        <a href="{% url 'car_detail' object.id %}" class="btn btn-secondary">Cancel</a>
-      {% endif %}
-      
-      <!-- <a href="{% url 'car_detail' object.id %}" class="btn btn-secondary">Cancel</a> -->
-    </form>
-  </div>
+{% block content %}
+    <div class="container text-center bg-dark py-4">
+        <h2 class="fw-bold text-warning my-3">WARNING!<br> THIS ACTION CANNOT BE REVERSED</h2>
+        <h3 class="fw-bold text-light">Are you sure you want to delete this vehicle?</h3>
+        <h3 class="text-danger my-2">{{ object }}</h3>
+
+        <form method="post" class="my-4">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Yes, delete</button>
+        {% url 'car_list' as car_list_url %}
+        {% if request.path == car_list_url %}
+            <a href="{{ car_list_url }}" class="btn btn-secondary">Cancel</a>
+        {% else %}
+            <a href="{% url 'car_detail' object.id %}" class="btn btn-secondary">Cancel</a>
+        {% endif %}
+        </form>
+    </div>
 {% endblock %}

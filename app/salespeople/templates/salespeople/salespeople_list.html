@@ -5,29 +5,30 @@
 {% block title %}Salespeople List{% endblock %}
 
 {% block content %}
-    
-    <div class="container">
-        <div class="row flex justify-content-between">
-            <h2>Salespeople</h2>
-
-            <a href="{% url 'salespeople_new' %}" class="btn btn-primary">Add Salesperson</a>
-        </div>
-
-        <!-- Table Order By-->
-        <div class="d-flex justify-content-end mt-2">
-            <div>
-                <a href="?order={% if request.GET.order == 'total_sales_amount' %}-{% endif %}total_sales_amount" class="btn btn-outline-primary">
-                    Total Sales {% if request.GET.order == 'total_sales_amount' %}(Descending){% else %}(Ascending){% endif %}
-                </a>
-                <a href="?order={% if request.GET.order == 'cars_sold_count' %}-{% endif %}cars_sold_count" class="btn btn-outline-primary">
-                    Cars Sold {% if request.GET.order == 'cars_sold_count' %}(Descending){% else %}(Ascending){% endif %}
-                </a>
+    <div class="container text-light">
+        <div class="row flex justify-content-evenly my-2">
+            <div class="row flex justify-content-between my-4">
+                <h2 class="col-md-6">Salespeople</h2>
+                <div class="col-md-2 justify-content-end">
+                    <a href="{% url 'salespeople_new' %}" class="btn btn-primary">Add Salesperson</a>
+                </div>
+            </div>
+        
+            <!-- Table Order -->
+            <div class="d-flex justify-content-around mt-2">
+                <div>
+                    <a href="?order={% if request.GET.order == 'total_sales_amount' %}-{% endif %}total_sales_amount" class="btn btn-outline-success">
+                        Total Sales {% if request.GET.order == 'total_sales_amount' %}(Descending){% else %}(Ascending){% endif %}
+                    </a>
+                    <a href="?order={% if request.GET.order == 'cars_sold_count' %}-{% endif %}cars_sold_count" class="btn btn-outline-primary">
+                        Cars Sold {% if request.GET.order == 'cars_sold_count' %}(Descending){% else %}(Ascending){% endif %}
+                    </a>
+                </div>
             </div>
         </div>
-
-        <!-- Table -->
+    
         {% if salespeople %}
-            <table class="table">
+            <table class="table text-light my-5">
                 <thead>
                     <tr>
                         <th>First Name</th>
