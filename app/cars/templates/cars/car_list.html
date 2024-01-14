@@ -1,7 +1,7 @@
 {% extends 'cars/base.html' %}
 
 {% load humanize %}
-<!-- {% load static %} -->
+
 {% block title %}Car List{% endblock %}
 
 {% block content %}
@@ -16,7 +16,6 @@
 
             <!-- Display messages -->
             {% if messages %}
-                <!-- <div class="alert alert-{{ message.tags }}" id="success-message"> -->
                 <div id="success-message">
                     {% for message in messages %}
                         <div class="alert {% if message.tags == 'success' %}alert-success{% endif %}">
@@ -33,7 +32,6 @@
                     }
                 }, 5000); // Adjust the duration (in milliseconds) as needed
                 </script>
-            
             {% endif %}
     
             <!-- Filters -->
