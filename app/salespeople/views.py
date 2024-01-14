@@ -7,7 +7,7 @@ from django.urls import reverse_lazy
 from django.contrib import messages
 from cars.models import Car
 from .models import Salespeople
-from django.db.models import Case, When, Value, Sum, DecimalField, BooleanField, Count, IntegerField, F
+from django.db.models import Case, When, Value, Sum, BooleanField, Count
 
 
 class SalespersonForm(forms.ModelForm):
@@ -36,46 +36,6 @@ class SalespeopleListView(ListView):
     template_name = 'salespeople/salespeople_list.html'
     context_object_name = 'salespeople'
 
-    # def get_queryset(self):
-    #     queryset = super().get_queryset()
-    #     order = self.request.GET.get('order')
-    
-    #     if order in ['total_sales_amount', '-total_sales_amount']:
-    #         # Annotate with total sales 
-    #         queryset = queryset.annotate(
-    #             total_sales_amount=Sum('sold_cars__price', output_field=DecimalField())
-    #         )
-            
-    #         if order == 'total_sales_amount':
-    #             # Ascending order: 
-    #             # First show 0.00 sales by annotating a boolean field
-    #             queryset = queryset.annotate(
-    #                 has_sales=Case(
-    #                     When(total_sales_amount__gt=0, then=Value(True)),  
-    #                     default=Value(False),
-    #                     output_field=BooleanField(),
-    #                 )
-    #             ).order_by('has_sales', 'total_sales_amount')
-                
-    #         else:
-    #             # Descending order:
-    #             # First show non-0.00 sales by annotating a boolean field
-    #             queryset = queryset.annotate(
-    #                 has_sales=Case(
-    #                     When(total_sales_amount__gt=0, then=Value(True)),
-    #                     default=Value(False),
-    #                     output_field=BooleanField(),
-    #                 )
-    #             ).order_by('-has_sales', '-total_sales_amount')
-                
-    #     elif order in ['cars_sold_count', '-cars_sold_count']:
-    #         # Annotate with count of sold cars
-    #         queryset = queryset.annotate(
-    #             cars_sold_count=Count('sold_cars')
-    #         ).order_by(order)
-        
-    #     return queryset
-    
     def get_queryset(self):
         queryset = super().get_queryset()
         order = self.request.GET.get('order')
@@ -127,6 +87,12 @@ class SalespeopleCreateView(CreateView):
     form_class = SalespersonForm
     template_name = 'salespeople/salespeople_form.html'
     success_url = reverse_lazy('salespeople_list')
+    
+    def form_valid(self, form):
+        # Save the salesperson
+        response = super().form_valid(form)
+        messages.success(self.request, 'Salesperson created successfully.')
+        return response
 
 class SalespeopleUpdateView(UpdateView):
     model = Salespeople
@@ -156,3 +122,4 @@ class SalespeopleDeleteView(DeleteView):
     model = Salespeople
     template_name = 'salespeople/salespeople_confirm_delete.html'
     success_url = reverse_lazy('salespeople_list')
+    
