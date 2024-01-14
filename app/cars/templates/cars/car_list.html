@@ -13,6 +13,28 @@
                 <a href="{% url 'car_new' %}" class="w-100 btn btn-primary mb-2">Add Car</a>
                 </div>
             </div>
+
+            <!-- Display messages -->
+            {% if messages %}
+                <!-- <div class="alert alert-{{ message.tags }}" id="success-message"> -->
+                <div id="success-message">
+                    {% for message in messages %}
+                        <div class="alert {% if message.tags == 'success' %}alert-success{% endif %}">
+                        {{ message }}
+                        </div>
+                    {% endfor %}
+                </div>
+                <script>
+                // JavaScript to hide the success message after 5 seconds
+                setTimeout(function() {
+                    var successMessage = document.getElementById('success-message');
+                    if (successMessage) {
+                        successMessage.style.display = 'none'; // Hide the message
+                    }
+                }, 5000); // Adjust the duration (in milliseconds) as needed
+                </script>
+            
+            {% endif %}
     
             <!-- Filters -->
             <form method="GET" class="my-2">
@@ -97,6 +119,7 @@
             <table class="table text-light my-5">
                 <thead>
                     <tr>
+                        <th>ID</th>
                         <th>VIN</th>
                         <th>Make</th>
                         <th>Model</th>
@@ -113,6 +136,7 @@
                 <tbody>
                     {% for car in cars %}
                     <tr>
+                        <td>{{ car.id }}</td>
                         <td>{{ car.vin }}</td>
                         <td>{{ car.make }}</td>
                         <td>{{ car.model }}</td>
