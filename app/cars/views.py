@@ -13,7 +13,7 @@ class CarForm(forms.ModelForm):
     """     
     Form for creating and updating Car instances.
 
-    This creates a form for creading and updating a Car object, including the associated
+    This class creates a form for creading and updating a Car object, including the associated
     salesperson. The salesperson field is optional and can be dynamically updated 
     on the client side using JavaScript.
     """
@@ -38,10 +38,10 @@ class HomePageView(TemplateView):
     """
     Displays the main landing page for the Car app.
 
-    This view is the home page for the Car app. This class extends Django's generic class-based view, TemplateView, to render a static home page.
+    This class is the home page for the Car app. It extends Django's generic class-based view, TemplateView, to render a static home page.
 
     Attributes:
-        - `template_name`: The associated template 'cars/index.html' is used for rendering the home page.
+        - template_name: The associated template 'cars/index.html' is used for rendering the home page.
 
     The resulting home page will display relevant information or content related to the Car app.
     """
@@ -51,16 +51,16 @@ class CarListView(ListView):
     """     
     Displays a list of Car instances with filtering and ordering options.
     
-    This class utilizes the Django generic class-based view, ListView, to create a view to handle the list of car objects from a queryset. It also allows the user to filter and order the list of cars by various attributes. 
+    This class extends ListView and is used to display a list of salespeople in the web application. It retrieves a queryset of cars from the database and renders it in a template. It also provides filtering and ordering options to filter.
 
     Attributes:
-        - `model`: The model associated with this view is the Car model.
-        - `template_name`: The associated template 'cars/list.html' is used for rendering the list of cars.
-        - `context_object_name`: The context variable name is 'cars'.
+        - model: The model associated with this view is the Car model.
+        - template_name: The associated template 'cars/list.html' is used for rendering the list of cars.
+        - context_object_name: The context variable name is 'cars'.
 
     Methods:
-        - `get_queryset()`: Returns a filtered and ordered queryset of Car instances.
-        - `get_context_data()`: Adds filter options to the context.
+        - get_queryset(): Returns a filtered and ordered queryset of Car instances.
+        - get_context_data(): Adds filter options to the context.
     """
     model = Car
     template_name = 'cars/car_list.html'
@@ -73,16 +73,16 @@ class CarListView(ListView):
         This method overrides the default get_queryset() method of the ListView class. It returns a filtered and ordered queryset of Car instances based on the query parameters in the request. 
         
         The queryset is filtered by the following query parameters:
-            - `color_filter`: The color of the car.
-            - `make_filter`: The make of the car.
-            - `model_filter`: The model of the car.
-            - `year_filter`: The year of the car.
-            - `car_type_filter`: The type of the car.
+            - color_filter: The color of the car.
+            - make_filter: The make of the car.
+            - model_filter: The model of the car.
+            - year_filter: The year of the car.
+            - car_type_filter: The type of the car.
 
         The queryset is ordered by the following query parameters:
-            - `order`: The field to order by. The default ordering is by id.
-            - `price_filter`: The price of the car.
-            - `mileage_filter`: The mileage of the car.
+            - order: The field to order by. The default ordering is by id.
+            - price_filter: The price of the car.
+            - mileage_filter: The mileage of the car.
         
         """
         queryset = super().get_queryset()
@@ -118,7 +118,7 @@ class CarListView(ListView):
                 order (str): The sorting order, either 'mileage' (ascending) or '-mileage' (descending).
                 
             Returns:
-                QuerySet: The annotated and sorted queryset based on the specified order.
+                querySet: The annotated and sorted queryset based on the specified order.
             """
             queryset = queryset.annotate(
                 total_sales_mileage=Sum('mileage', default=Value(0.00), output_field=DecimalField())
@@ -171,12 +171,12 @@ class CarDetailView(DetailView):
     """     
     Displays the details of a Car instance.
     
-    This class utilizes the Django generic class-based view, DetailView, to create a view to handle the details of a car object from a queryset. It defines the model, template, and context_object_name attributes. A template associated with 'cars/detail.html' is used to render with a car object. The context_object_name attribute specifies the name of the context variable that will be used in the template. By default, the context variable is named after the model, in lowercase. In this case, the context variable will be named 'car'.
+    This class extends DetailView and is used to display the details of a car in the web application. It retrieves a Car object from the database and renders it in a template. 
     
     Attributes:
-        - `model`: The model associated with this view is the Car model.
-        - `template_name`: The associated template 'cars/detail.html' is used for rendering the details of a car.
-        - `context_object_name`: The context variable name is 'car'.
+        - model: The model associated with this view is the Car model.
+        - template_name: The associated template 'cars/detail.html' is used for rendering the details of a car.
+        - context_object_name: The context variable name is 'car'.
     """
     model = Car
     template_name = 'cars/car_detail.html'
@@ -187,16 +187,16 @@ class CarCreateView(CreateView):
     """
     Creates a Car instance.
     
-    This class utilizes the Django generic class-based view, CreateView, to create a view to handle the creation of a car object. It defines the model, template, form_class, and success_url attributes. A template associated with 'cars/car_form.html' is used to create a car object. The form_class attribute specifies the form to use for creating a car object. The success_url attribute specifies the URL to redirect to after a successful form submission. The decorator is used to exempt the view from the CSRF token requirement.
+    This class CreateView to create a Car instance. It renders a form for creating a new Car object and handles the form submission. It also provides a success message upon successful form submission. It utilizes Django's reverse lookup function, reverse_lazy(), to retrieve the URL for the car list page and redirect to it after a successful creation. The decorator @method_decorator(csrf_exempt, name='dispatch') is used to exempt the view from the CSRF token requirement.
     
     Attributes:
-        - `model`: The model associated with this view is the Car model.
-        - `template_name`: The associated template 'cars/car_form.html' is used for rendering the form for creating a car.
-        - `form_class`: The form used for creating a car is the CarForm.
-        - `success_url`: The URL to redirect to after a successful form submission is the car list page.
+        - model: The model associated with this view is the Car model.
+        - template_name: The associated template 'cars/car_form.html' is used for rendering the form for creating a car.
+        - form_class: The form used for creating a car is the CarForm.
+        - success_url: The URL to redirect to after a successful form submission is the car list page.
         
     Methods:
-        - `form_valid()`: Handles the form submission when creating a new Car instance.
+        - form_valid(): Handles the form submission when creating a new Car instance.
     """
     model = Car
     form_class = CarForm  # Use the modified CarForm
@@ -205,15 +205,17 @@ class CarCreateView(CreateView):
 
     def form_valid(self, form):
         """     
-        Handles the form submission when creating a new Car instance.
+        Validates the data submitted when creating a Car instance.
         
-        This method overrides the default form_valid() method of the CreateView class. It handles the form submission when creating a new Car instance. If there is a salesperson selected, first name and last name values are automatically validated by Django. If valid, the data is stored in the cleaned_data dictionary and saved. The Car object is saved.
+        This method overrides the default form_valid() method of the CreateView class. It handles the form submission when creating a new Car instance. If there is a salesperson selected, first name and last name values are automatically validated by Django. If valid, the data is stored in the cleaned_data dictionary and saved, then reverse_lazy() is used to retrieve the URL for the car list page and redirect to it after a successful creation. A success message is also displayed.
+        
+        The Car object is saved.
         
         Args:
             form (CarForm): The form used for creating a car.
             
         Returns:
-            HttpResponseRedirect: A redirect to the success URL.
+            HttpResponse: A redirect to the success URL.
             messages (Message): A success message is displayed.
         """
         # Get the selected salesperson from the form
@@ -233,22 +235,20 @@ class CarCreateView(CreateView):
 @method_decorator(csrf_exempt, name='dispatch')
 class CarUpdateView(UpdateView):
     """     
-    Updates an existing Car instance.
+    Updates a Car instance.
 
-    This class utilizes the Django generic class-based view, UpdateView, to create a view
-    for updating an existing Car instance. It defines the model, template, fields, and
-    success_url attributes.
+    This class extends the UpdateView, to create a view for updating an existing Car instance. It utilizes Django's reverse lookup function, reverse_lazy(), to retrieve the URL for the car list page and redirect to it after a successful update. It overrides the form_valid() method to handle the form submission when updating a Car instance. It also provides a success message upon successful form submission. The decorator @method_decorator(csrf_exempt, name='dispatch') is used to exempt the view from the CSRF token requirement.
 
     Attributes:
-        - `model`: The model associated with this view is the Car model.
-        - `template_name`: The associated template 'cars/car_form.html' is used for rendering the form for updating a car.
-        - `fields`: The fields that can be updated in the Car instance. In this case, it includes:
+        - model: The model associated with this view is the Car model.
+        - template_name: The associated template 'cars/car_form.html' is used for rendering the form for updating a car.
+        - fields: The fields that can be updated in the Car instance. In this case, it includes:
             'id', 'make', 'model', 'year', 'color', 'price', 'mileage', 'sold', 'date_sold',
             'salesperson', and 'car_type'.
-        - `success_url`: The URL to redirect to after a successful update, in this case, the car list.
+        - success_url: The URL to redirect to after a successful update, in this case, the car list.
 
     Methods:
-        - `form_valid()`: Handles the form submission when updating a Car instance.
+        - form_valid(): Handles the form submission when updating a Car instance.
     """
     model = Car
     template_name = 'cars/car_form.html'
@@ -285,15 +285,16 @@ class CarDeleteView(DeleteView):
     """
     Deletes an existing Car instance.
     
-    This class utilizes the Django generic class-based view, DeleteView, to create a view to handle the deletion of a car object. It defines the model, template, and success_url attributes. A template associated with 'cars/car_confirm_delete.html' is used to confirm the deletion of a car object. The success_url attribute specifies the URL to redirect to after a successful deletion.
+    This class extends DeleteView to create a view to handle the deletion of a car object. A template associated with 'cars/car_confirm_delete.html' is used to confirm the deletion of a car object. When a car is deleted, if it was sold by a salesperson, the car is removed from the salesperson's details. It also provides a success message upon successful deletion.
+    The success_url attribute specifies the URL to redirect to after a successful deletion.
     
     Attributes:
-        - `model`: The model associated with this view is the Car model.
-        - `template_name`: The associated template 'cars/car_confirm_delete.html' is used for rendering the confirmation page for deleting a car.
-        - `success_url`: The URL to redirect to after a successful deletion is the car list page.
+        - model: The model associated with this view is the Car model.
+        - template_name: The associated template 'cars/car_confirm_delete.html' is used for rendering the confirmation page for deleting a car.
+        - success_url: The URL to redirect to after a successful deletion is the car list page.
         
     Methods:
-        - `delete()`: Deletes the Car instance.
+        - delete(): Deletes the Car instance.
     """
     model = Car
     template_name = 'cars/car_confirm_delete.html'
