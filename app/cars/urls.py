@@ -1,8 +1,16 @@
 from django.urls import path
-from .views import HomePageView, CarListView, CarDetailView, CarCreateView, CarUpdateView, CarDeleteView, mark_car_as_not_sold
+from .views import (
+    HomePageView, 
+    CarListView, 
+    CarDetailView, 
+    CarCreateView, 
+    CarUpdateView, 
+    CarDeleteView, 
+    mark_car_as_not_sold
+)
 
 urlpatterns = [
-    path('', HomePageView.as_view(), name='home'),  # Add this line for the home page
+    path('', HomePageView.as_view(), name='home'),  
     path('cars/', CarListView.as_view(), name='car_list'),
     path('cars/<int:pk>/', CarDetailView.as_view(), name='car_detail'),
     path('cars/new/', CarCreateView.as_view(), name='car_new'),
