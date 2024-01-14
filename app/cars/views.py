@@ -7,13 +7,13 @@ from django.urls import reverse_lazy
 from django.contrib import messages
 from .models import Car
 from salespeople.models import Salespeople
-from django.db.models import Count, Sum, Value, DecimalField
+from django.db.models import Sum, Value, DecimalField
 
 class CarForm(forms.ModelForm):
     """     
     Form for creating and updating Car instances.
 
-    This form is used to gather data for a Car object, including the associated
+    This creates a form for creading and updating a Car object, including the associated
     salesperson. The salesperson field is optional and can be dynamically updated 
     on the client side using JavaScript.
     """
@@ -51,7 +51,7 @@ class CarListView(ListView):
     """     
     Displays a list of Car instances with filtering and ordering options.
     
-    This class utilizes the Django generic class-based view, ListView, to create a view to handle the list of car objects from a queryset. It defines the model, template, and context_object_name attributes. A template associated with 'cars/list.html' is used to render with a list of car objects. The context_object_name attribute specifies the name of the context variable that will be used in the template. By default, the context variable is named after the model, in lowercase. In this case, the context variable will be named 'cars'.
+    This class utilizes the Django generic class-based view, ListView, to create a view to handle the list of car objects from a queryset. It also allows the user to filter and order the list of cars by various attributes. 
 
     Attributes:
         - `model`: The model associated with this view is the Car model.
@@ -115,7 +115,10 @@ class CarListView(ListView):
             The sum of 'mileage' values is calculated for Car instances in the queryset. If the car has no mileage, the value is defaulted to 0.00. The data type of the field is a decimal number. Then the sum is annotated to each car as 'total_sales_mileage'. The list of cars can then be ordered by mileage, either in ascending or descending order.
 
             Parameters:
-                - order (str): The sorting order, either 'mileage' (ascending) or '-mileage' (descending).
+                order (str): The sorting order, either 'mileage' (ascending) or '-mileage' (descending).
+                
+            Returns:
+                QuerySet: The annotated and sorted queryset based on the specified order.
             """
             queryset = queryset.annotate(
                 total_sales_mileage=Sum('mileage', default=Value(0.00), output_field=DecimalField())
@@ -288,6 +291,9 @@ class CarDeleteView(DeleteView):
         - `model`: The model associated with this view is the Car model.
         - `template_name`: The associated template 'cars/car_confirm_delete.html' is used for rendering the confirmation page for deleting a car.
         - `success_url`: The URL to redirect to after a successful deletion is the car list page.
+        
+    Methods:
+        - `delete()`: Deletes the Car instance.
     """
     model = Car
     template_name = 'cars/car_confirm_delete.html'

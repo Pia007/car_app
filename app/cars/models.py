@@ -71,15 +71,7 @@ class Car(models.Model):
     COMMISSION_RATE = 0.20 # 20% commission rate
 
     def calculate_commission(self):
-        """ 
-        Calculates the commission for the car.
-
-        Args:
-            self: An instance of the Car class.
-            
-        Returns:
-            A float representing the commission for the car.
-        """
+        """ Calculates the commission of the car and rounds it to two decimal places."""
         commission =  self.price * self.COMMISSION_RATE
         return round(commission, 2)
 
@@ -103,7 +95,7 @@ class Car(models.Model):
         """
         Formats the mileage of the car to include thousands separators.
 
-        This method uses the locale module to format the car's mileage attribute to a string based on the locale of the user. The mileage integer is initially formatted as a decimal number, using %d. Then the decimal is set to include thousands separators, using the grouping=True parameter. The decimal number is then formated to a string.
+        This method uses the locale module to format the car's mileage attribute to a string. The mileage integer is initially formatted as a decimal number, using %d. Then the decimal is set to include thousands separators, using the grouping=True parameter. The decimal number is then formated to a string.
         
         Args:
             self: An instance of the Car class.
@@ -174,8 +166,7 @@ class Car(models.Model):
             self: An instance of the Car class.
 
         Raises:
-            ValidationError: If any of the validation rules are violated, a ValidationError is raised
-            with an appropriate error message.
+            ValidationError: If any of the validation rules are violated.
 
         Note:
             This method is typically called automatically when saving a Car instance using Django's ModelForm,
@@ -208,13 +199,15 @@ class Car(models.Model):
             self: An instance of the Car class.
             *args: Variable length argument list.
             **kwargs: Arbitrary keyword arguments.
+            
+        Returns:
+            None
 
         Note:
             - The clean() method is called to validate the Car instance before saving.
             - If the 'vin' field is empty, a VIN is generated.
             - The 'make' and 'model' fields are capitalized for consistency.
             - Finally, the Car instance is saved to the database.
-
         """
         self.clean()
         # Generate VIN only if it doesn't exist
