@@ -211,6 +211,7 @@ class CarCreateView(CreateView):
             
         Returns:
             HttpResponseRedirect: A redirect to the success URL.
+            messages (Message): A success message is displayed.
         """
         # Get the selected salesperson from the form
         selected_salesperson = form.cleaned_data['salesperson']
@@ -265,6 +266,7 @@ class CarUpdateView(UpdateView):
 
         Returns:
             HttpResponseRedirect: A redirect to the success URL
+            messages (Message): A success message is displayed.
         """
         car = form.save(commit=False)
 
@@ -290,6 +292,24 @@ class CarDeleteView(DeleteView):
     model = Car
     template_name = 'cars/car_confirm_delete.html'
     success_url = reverse_lazy('car_list')
+    
+    def delete(self, request, *args, **kwargs):
+        """     
+        Deletes the Car instance.
+        
+        This method overrides the default delete() method of the DeleteView class. It deletes the Car instance, redirects to the success URL and displays a success message.
+        
+        Args:
+            request (HttpRequest): The HTTP request.
+            *args: Variable length argument list.
+            **kwargs: Arbitrary keyword arguments.
+            
+        Returns:
+            HttpResponseRedirect: A redirect to the success URL.
+            messages (Message): A success message is displayed.
+        """
+        messages.success(self.request, 'Car deleted successfully.')
+        return super().delete(request, *args, **kwargs)
 
 def mark_car_as_not_sold(request, car_id):
     """
@@ -303,7 +323,8 @@ def mark_car_as_not_sold(request, car_id):
         car_id (int): The id of the car to mark as not sold.
         
     Returns:
-        HttpResponseRedirect: A redirect to the car list or salesperson detail page.
+        HttpResponseRedirect: A redirect to the car list or salesperson detail page. 
+        messages (Message): A success or error message is displayed.
     """
     car = get_object_or_404(Car, pk=car_id)
 
@@ -314,7 +335,7 @@ def mark_car_as_not_sold(request, car_id):
     # Save the car instance
     try:
         car.save()
-        messages.success(request, 'Car marked as not sold successfully.')
+        messages.success(request, 'Car marked as "NOT SOLD".')
     except forms.ValidationError as e:
         messages.error(request, 'Error: ' + str(e))
 
