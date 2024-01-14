@@ -36,7 +36,7 @@ class SalespeopleListView(ListView):
     """
     Displays a list of salespeople.
     
-    This class inherits from the ListView class and displays a list of salespeople from a queryset. It also allows the user to filter the list of salespeople by the total sales amount and the number of cars sold by the salespeople. 
+    This class extends Django's built-in ListView and is used to display a list of salespeople in a web application. It retrieves a queryset of salespeople from the database and renders them using a specified template.
     
     Attributes:
         model (Salespeople): The model for the view.
@@ -53,7 +53,7 @@ class SalespeopleListView(ListView):
 
     def get_queryset(self):
         """
-        Returns and ordered queryset of the Salespeople instances.
+        Returns an ordered queryset of the Salespeople instances.
         
         This method overrides the default get_queryset method of the ListView class. It returns an ordered queryset of the Salespeople instances. The queryset is ordered by the total sales amount and the number of cars sold by the salespeople.
         
@@ -140,7 +140,7 @@ class SalespeopleDetailView(DetailView):
     """
     Displays the details of a Salespeople instance.
     
-    This class inherits from the DetailView class and displays the details of a Salespeople instance from a queryset. It also displays the total commission of the salesperson. The information is grouped by the salesperson's first name, last name, email, phone number, and cars sold by the salesperson.
+    This class extends Django's built-in DetailView and is used to display the details of a salesperson in a web application. It retrieves a Salespeople instance from the database and renders it using a specified template. It also calculates the total commission earned by the salesperson and adds it to the context data.
     
     Attributes:
         model (Salespeople): The model for the view.
@@ -175,7 +175,7 @@ class SalespeopleCreateView(CreateView):
     """
     Creates a Salespeople instance.
     
-    This class inherits the CreateView class and creates a Salespeople instance. It also allows the user to select and unsold car and assign it to the salesperson.
+    This class extends CreateView to create a Salespeople instance. When the salesperson is created, if there was a car selected, the car object is automatically validated. If valid, the car is marked as sold, assigned the current date as the date_sold and is assigned it to the salesperson. It utilizes Django's reverse_lazy() function to redirect to the salespeople list page after a successful creation. The decorator is used to exempt the view from the CSRF token requirement.
     
     Attributes:
         model (Salespeople): The model for the view.
@@ -194,7 +194,7 @@ class SalespeopleCreateView(CreateView):
     
     def form_valid(self, form):
         """
-        Validates the Salesperson form data.
+        Validates the data submitted when creating a Salespeople instance.
         
         This method overrides the default implementation to validate the Salesperson form data. It also marks the selected car as sold, assigns the current date as the date_sold and assigns it to the salesperson.
         
@@ -202,18 +202,19 @@ class SalespeopleCreateView(CreateView):
             form (SalespersonForm): The form instance to validate.
             
         Returns:
-            HttpResponse: The HTTP response for a valid form.
-            messages: The messages for a valid form.
+            HttpResponseRedirect: A redirect to the success URL.
+            messages (Message): The messages for a valid form.
         """
         response = super().form_valid(form)
         messages.success(self.request, 'Salesperson created successfully.')
         return response
 
+@method_decorator(csrf_exempt, name='dispatch')
 class SalespeopleUpdateView(UpdateView):
     """
-    Updates an existing Salespeople instance.
+    Updates a Salespeople instance.
     
-    This class inherits the UpdateView class and updates a Salespeople instance. It also allows the user to select and unsold car and assign it to the salesperson.
+    This class extends UpdateView class and updates a Salespeople instance. It utilizes Django's reverse_lazy() function to redirect to the salespeople list page after a successful update. It also allows the user to select and unsold car and assign it to the salesperson. The decorator is used to exempt the view from the CSRF token requirement.
     
     Attributes:
         model (Salespeople): The model for the view.
@@ -262,7 +263,7 @@ class SalespeopleDeleteView(DeleteView):
     """
     Deletes an existing Salespeople instance.
     
-    This class inherits the DeleteView class and deletes a Salespeople instance. When the salesperson is deleted, if there was a list of cars sold by the salesperson, the cars remain marked as sold but are no longer associated with the salesperson. The user is asked to confirm the deletion of the salesperson. If the user confirms the deletion, the salesperson is deleted and the user is redirected to the salespeople list page. If the user cancels the deletion, the user is redirected to the salespeople detail page.
+    This extends DeleteView class and deletes a Salespeople instance. When the salesperson is deleted, if there is a list of cars sold by the salesperson, the cars remain marked as sold but are no longer associated with the salesperson. The user is asked to confirm the deletion of the salesperson. If the user confirms the deletion, the salesperson is deleted and the user is redirected to the salespeople list page. If the user cancels the deletion, the user is redirected to the salespeople detail page.
     
     Attributes:
         model (Salespeople): The model for the view.
