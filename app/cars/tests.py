@@ -1,9 +1,5 @@
-from django.test import TestCase
 from django.urls import reverse
-import pytest
-from cars.models import Car
 
-# Create your tests here.
 #Unit Test
 def test_homepage_access():
     url = reverse('home')
