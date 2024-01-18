@@ -1,7 +1,7 @@
 # Car Dealership Project
 ![Car Dealership](/images/car_app_img.png)
 
-The Car Dealership project is designed to manage and showcase car inventory and salesperson data for a dealership. This README outlines the structure and components of the project, including design documents, database schema, API, and additional development features.
+The Car Dealership project is designed to manage and showcase [car inventory](https://github.com/Pia007/car_app/assets/66088725/cf9e33b6-95df-4707-a257-e5e612825e30) and [salesperson data](https://github.com/Pia007/car_app/assets/66088725/904c49b8-7b32-4294-8748-444bd377fc6b) for a dealership. This README outlines the structure and components of the project, including design documents, database schema, API, and additional development features.
 
 ## Technologies Used
 
@@ -98,11 +98,12 @@ docker run -d --name car_app_container -p 8000:8000 car_app_image
 ``` 
 
 
-## Further Development and Data Visualization
+## Further Development
 
-- **Database Development Using Migrations**: Additional tables and modifications of the database using migrations.
-- **Continued Development of REST API Endpoints**: Additional API endpoints as required by the application.
-- **Data Visualization**: Adding charts and graphs to visualize inventory and sales data.
+- **`Salesperson Performance Tracking`** : Tools to monitor and analyze salesperson performance metrics, aiding in the evaluation of sales strategies and employee productivity.
+- **`Customer Relationship Management (CRM)`**: Capabilities for managing customer data, enhancing customer engagement and sales opportunities.
+- **`Real-Time Reporting and Analytics`**: Comprehensive reporting tools for real-time insights into inventory levels, sales trends, and market demands.
+API Integration: A robust API for seamless integration with external systems and  
 
 
 
