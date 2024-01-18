@@ -1,5 +1,5 @@
 # Car Dealership Project
-![Car Dealership](/images/car_app_img.png)
+![Car Dealership](car_app_img.png)
 
 The Car Dealership project is designed to manage and showcase [car inventory](https://github.com/Pia007/car_app/assets/66088725/cf9e33b6-95df-4707-a257-e5e612825e30) and [salesperson data](https://github.com/Pia007/car_app/assets/66088725/904c49b8-7b32-4294-8748-444bd377fc6b) for a dealership. This README outlines the structure and components of the project, including design documents, database schema, API, and additional development features.
 
