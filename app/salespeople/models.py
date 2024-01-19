@@ -1,5 +1,4 @@
 from decimal import Decimal
-import locale
 from django.db import models
 from django.forms import ValidationError
 from django.urls import reverse
@@ -46,21 +45,9 @@ class Salespeople(models.Model):
         return total.quantize(Decimal('0.00')) if total != 0 else Decimal('0.00')
 
     def formatted_commission(self):
-        """ 
-        Formats the commission of the salesperson.
-        
-        Uses the locale module to format the commission of the salesperson commission attribute to a string.
-        The commission is formatted to a decimal number, then the decimal number is formatted to include thousands separators, using grouping=True. The commission is then returned as a string.
-        Args:
-            self: The salesperson instance.
-            
-        Returns:
-            commission(str): The formatted commission of the salesperson.
-        """
-        locale.setlocale(locale.LC_ALL, 'en_US.UTF-8')
-        return locale.format_string("%d", self.total_commission(), grouping=True)
+        # add commas and format to 2 decimal places
+        return "{:,.2f}".format(self.total_commission())
 
-    # calculate total sales for saleperson
     def total_sales(self):
         """ Loops through the cars sold and formats each price as a decimal and calculates the totals sales. If there is no price then sets the value as 0.00 .  """
         total = sum(Decimal(car.price)

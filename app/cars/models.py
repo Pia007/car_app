@@ -1,4 +1,3 @@
-import locale
 from django.db import models
 from django.forms import ValidationError
 import string
@@ -90,34 +89,12 @@ class Car(models.Model):
         return ''.join(random.choices(string.ascii_uppercase + string.digits, k=17))
     
     def formatted_mileage(self):
-        """
-        Formats the mileage of the car to include thousands separators.
-
-        This method uses the locale module to format the car's mileage attribute to a string. The mileage integer is initially formatted as a decimal number, using %d. Then the decimal is set to include thousands separators, using the grouping=True parameter. The decimal number is then formated to a string.
-        
-        Args:
-            self: An instance of the Car class.
-
-        Returns:
-            mileage(str): The car's mileage with thousands separators.
-        """
-        locale.setlocale(locale.LC_ALL, 'en_US.UTF-8')  
-        return locale.format_string("%d", self.mileage, grouping=True)
+        # add commas to the mileage
+        return "{:,}".format(self.mileage)
     
     def formatted_price(self):
-        """
-        Formats the price of the car to include thousands separators.
-        
-        This method uses the locale module to format the car's price attribute to a string based on the locale of the user. The price integer is initially formatted as a decimal number, using %d. Then the decimal is set to include thousands separators, using the grouping=True parameter. The decimal number is then formated to a string.
-        
-        Args:
-            self: An instance of the Car class.
-            
-        Returns:
-            price(str): The car's price with thousands separators.
-        """
-        locale.setlocale(locale.LC_ALL, 'en_US.UTF-8')  # Set locale, e.g., 'en_US.UTF-8'
-        return locale.format_string("%d", self.price, grouping=True)
+        # add commas and format to 2 decimal places
+        return "{:,.2f}".format(self.price)
     
     def mark_as_not_sold(self):
         """
