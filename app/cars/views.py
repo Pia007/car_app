@@ -13,13 +13,13 @@ class CarForm(forms.ModelForm):
     """     
     Form for creating and updating Car instances.
 
-    This class creates a form for creading and updating a Car object, including the associated
+    This class creates a form for creating and updating a Car object, including the associated
     salesperson. The salesperson field is optional and can be dynamically updated 
     on the client side using JavaScript.
     """
     salesperson = forms.ModelChoiceField(
         queryset=Salespeople.objects.all(),
-        required=False,  # Make it optional
+        required=False,
         widget=forms.Select(attrs={'onchange': 'updateSalespersonDetails();'})  
     )
     class Meta:
@@ -51,7 +51,7 @@ class CarListView(ListView):
     """     
     Displays a list of Car instances with filtering and ordering options.
     
-    This class extends ListView and is used to display a list of salespeople in the web application. It retrieves a queryset of cars from the database and renders it in a template. It also provides filtering and ordering options to filter.
+    This class extends ListView and is used to display a list of cars in the web application. It retrieves a queryset of cars from the database and renders it in a template. It also provides filtering and ordering options to filter.
 
     Attributes:
         - model: The model associated with this view is the Car model.
@@ -68,9 +68,7 @@ class CarListView(ListView):
 
     def get_queryset(self):
         """     
-        Returns a filtered and ordered queryset of Car instances.
-        
-        This method overrides the default get_queryset() method of the ListView class. It returns a filtered and ordered queryset of Car instances based on the query parameters in the request. 
+        Overrides the default get_queryset() method of the ListView class. It returns a filtered and ordered queryset of Car instances based on the query parameters in the request. 
         
         The queryset is filtered by the following query parameters:
             - color_filter: The color of the car.
@@ -83,7 +81,6 @@ class CarListView(ListView):
             - order: The field to order by. The default ordering is by id.
             - price_filter: The price of the car.
             - mileage_filter: The mileage of the car.
-        
         """
         queryset = super().get_queryset()
         order = self.request.GET.get('order')
@@ -110,8 +107,6 @@ class CarListView(ListView):
         
         if order in ['mileage', '-mileage']:
             """
-            Annotates the queryset with total mileage and orders it by mileage.
-
             The sum of 'mileage' values is calculated for Car instances in the queryset. If the car has no mileage, the value is defaulted to 0.00. The data type of the field is a decimal number. Then the sum is annotated to each car as 'total_sales_mileage'. The list of cars can then be ordered by mileage, either in ascending or descending order.
 
             Parameters:
@@ -126,8 +121,6 @@ class CarListView(ListView):
 
         if order in ['price', '-price']:
             """
-            Annotates the queryset with total price and orders it by price.
-            
             The sum of 'price' values is calculated for Car instances and each car is annotated with 'total_sales_price'. If the price is not available, the value is defaulted to 0.00. The data type of the field is a decimal number. The list of cars can then be ordered by price, either in ascending or descending order.
             
             Parameters:
@@ -140,10 +133,8 @@ class CarListView(ListView):
         return queryset
     
     def get_context_data(self, **kwargs):
-        """     
-        Adds filter options to the context.
-
-        This method retrieves distinct values for various car attributes (makes, models, colors, years, and car types) and adds them to the context dictionary. These values are used to provide filter options on the webpage.
+        """ 
+        Retrieves distinct values for various car attributes (makes, models, colors, years, and car types) and adds them to the context dictionary. These values are used to provide filter options on the webpage.
         
         Args:
             **kwargs: Arbitrary keyword arguments.
@@ -187,7 +178,7 @@ class CarCreateView(CreateView):
     """
     Creates a Car instance.
     
-    This class CreateView to create a Car instance. It renders a form for creating a new Car object and handles the form submission. It also provides a success message upon successful form submission. It utilizes Django's reverse lookup function, reverse_lazy(), to retrieve the URL for the car list page and redirect to it after a successful creation. The decorator @method_decorator(csrf_exempt, name='dispatch') is used to exempt the view from the CSRF token requirement.
+    This class extends CreateView to create a Car instance. It renders a form for creating a new Car object and handles the form submission. It also provides a success message upon successful form submission. It utilizes Django's reverse lookup function, reverse_lazy(), to retrieve the URL for the car list page and redirect to it after a successful creation. The decorator @method_decorator(csrf_exempt, name='dispatch') is used to exempt the view from the CSRF token requirement.
     
     Attributes:
         - model: The model associated with this view is the Car model.
@@ -199,17 +190,13 @@ class CarCreateView(CreateView):
         - form_valid(): Handles the form submission when creating a new Car instance.
     """
     model = Car
-    form_class = CarForm  # Use the modified CarForm
+    form_class = CarForm
     template_name = 'cars/car_form.html'
     success_url = reverse_lazy('car_list')
 
     def form_valid(self, form):
         """     
-        Validates the data submitted when creating a Car instance.
-        
-        This method overrides the default form_valid() method of the CreateView class. It handles the form submission when creating a new Car instance. If there is a salesperson selected, first name and last name values are automatically validated by Django. If valid, the data is stored in the cleaned_data dictionary and saved, then reverse_lazy() is used to retrieve the URL for the car list page and redirect to it after a successful creation. A success message is also displayed.
-        
-        The Car object is saved.
+        Overrides the default form_valid() method of the CreateView class. It handles the form submission when creating a new Car instance. If there is a salesperson selected, first name and last name values are automatically validated by Django. If valid, the data is stored in the cleaned_data dictionary and saved, then reverse_lazy() is used to retrieve the URL for the car list page and redirect to it after a successful creation. A success message is also displayed.
         
         Args:
             form (CarForm): The form used for creating a car.
@@ -252,14 +239,12 @@ class CarUpdateView(UpdateView):
     """
     model = Car
     template_name = 'cars/car_form.html'
-    fields = ['id', 'make', 'model', 'year', 'color', 'price', 'mileage', 'sold', 'date_sold', 'salesperson', 'car_type']  # Added 'car_type'
+    fields = ['id', 'make', 'model', 'year', 'color', 'price', 'mileage', 'sold', 'date_sold', 'salesperson', 'car_type']  
     success_url = reverse_lazy('car_list')
 
     def form_valid(self, form):
         """
-        Handles the form submission when updating a Car instance.
-
-        This method overrides the default form_valid() method of the UpdateView class.
+        Overrides the default form_valid() method of the UpdateView class.
         It handles the form submission when updating a Car instance. If the car is marked
         as sold and not already marked as sold with a salesperson, it calls the 'mark_as_sold'
         method to update the car's status. It saves the Car object. 
@@ -301,10 +286,8 @@ class CarDeleteView(DeleteView):
     success_url = reverse_lazy('car_list')
     
     def delete(self, request, *args, **kwargs):
-        """     
-        Deletes the Car instance.
-        
-        This method overrides the default delete() method of the DeleteView class. It deletes the Car instance, redirects to the success URL and displays a success message.
+        """
+        Overrides the default delete() method of the DeleteView class. It deletes the Car instance, redirects to the success URL and displays a success message.
         
         Args:
             request (HttpRequest): The HTTP request.
@@ -320,10 +303,7 @@ class CarDeleteView(DeleteView):
 
 def mark_car_as_not_sold(request, car_id):
     """
-    Sets the sold status of a car to False.
-    
-    This function sets the sold status of a car to False and clears the date_sold and salesperson fields. It is used to mark a car as not sold. It is called when the 'Mark as Not Sold' button is clicked on the salesperson detail page. The try block attempts to save the car instance. If successful, a success message is displayed. Otherwise, an error message is displayed.
-    It redirects back to the salesperson detail page if the car was sold by a salesperson. Otherwise, it redirects back to the car list page.
+    Sets the sold status of a car to False and clears the date_sold and salesperson fields when the 'Mark as Not Sold' button is clicked on the salesperson detail page. The try block attempts to save the car instance. If successful, a success message is displayed. Otherwise, an error message is displayed. It redirects back to the salesperson detail page if the car was sold by a salesperson. Otherwise, it redirects back to the car list page.
     
     Args:
         request (HttpRequest): The HTTP request.

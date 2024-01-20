@@ -16,6 +16,7 @@ class SalespersonForm(forms.ModelForm):
     
     This class creates a form for creating and updating Salespeople instances. It contains fields for the first name, last name, email, phone number, and unsold cars of the salesperson.
     """
+    
     unsold_cars = forms.ModelChoiceField(
         queryset=Car.objects.filter(sold=False),
         required=False,
@@ -25,7 +26,7 @@ class SalespersonForm(forms.ModelForm):
         """
         Meta class for SalespersonForm.
         
-        This class contains the metadata for the SalespersonForm class. It specifies the model and fields for the form.
+        Contains the metadata for the SalespersonForm class. It specifies the model and fields for the form.
         """
         model = Salespeople
         fields = [
@@ -53,18 +54,13 @@ class SalespeopleListView(ListView):
 
     def get_queryset(self):
         """
-        Returns an ordered queryset of the Salespeople instances.
-        
-        This method overrides the default get_queryset method of the ListView class. It returns an ordered queryset of the Salespeople instances. The queryset is ordered by the total sales amount and the number of cars sold by the salespeople.
-        
+        Overrides the default get_queryset method of the ListView class. It returns an ordered queryset of the Salespeople instances. The queryset is ordered by the total sales amount and the number of cars sold by the salespeople.
         """
         queryset = super().get_queryset()
         order = self.request.GET.get('order')
 
         if order in ['total_sales_amount', '-total_sales_amount']:
             """
-            Annotates and orders the queryset based on total sales amount.
-
             Checks if the provided 'order' parameter is 'total_sales_amount' or '-total_sales_amount'. Depending on the order,
             it annotates the queryset with 'total_sales_amount', which represents the sum of prices of sold cars associated with each instance.
 
@@ -83,6 +79,7 @@ class SalespeopleListView(ListView):
                 total_sales_amount=Sum('sold_cars__price')
             )
     
+            """ Takes the queryset and annotates it with 'has_sales' as a boolean field, indicating whether there are any sales associated with each instance. """
             queryset = queryset.annotate(
                 has_sales=Case(
                     When(total_sales_amount__gt=0, then=Value(True)),
@@ -114,16 +111,8 @@ class SalespeopleListView(ListView):
 
         elif order in ['cars_sold_count', '-cars_sold_count']: 
             """
-            Orders the queryset based on the count of sold cars.
-
             Checks if the provided 'order' parameter is 'cars_sold_count' or '-cars_sold_count'.
             If so, it annotates the queryset with 'cars_sold_count', representing the count of sold cars associated with each instance.
-
-            Parameters:
-                order (str): The sorting order, either 'cars_sold_count' or '-cars_sold_count'.
-
-            Returns:
-                QuerySet: The sorted queryset based on the specified order.
             """
             queryset = queryset.annotate(
             cars_sold_count=Count('sold_cars')
@@ -157,9 +146,7 @@ class SalespeopleDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         """
-        Adds the total commission for the current salesperson to the context data.
-
-        This method overrides the default implementation to include additional context data.
+        Overrides the default implementation to include additional context data.
         It calculates the total commission earned by the current salesperson and adds it to the context.
 
         Returns:
@@ -175,7 +162,7 @@ class SalespeopleCreateView(CreateView):
     """
     Creates a Salespeople instance.
     
-    This class extends CreateView to create a Salespeople instance. When the salesperson is created, if there was a car selected, the car object is automatically validated. If valid, the car is marked as sold, assigned the current date as the date_sold and is assigned it to the salesperson. It utilizes Django's reverse_lazy() function to redirect to the salespeople list page after a successful creation. The decorator is used to exempt the view from the CSRF token requirement.
+    Extends CreateView to create a Salespeople instance. When the salesperson is created, if there was a car selected, the car object is automatically validated. If valid, the car is marked as sold, assigned the current date as the date_sold and is assigned it to the salesperson. It utilizes Django's reverse_lazy() function to redirect to the salespeople list page after a successful creation. The decorator is used to exempt the view from the CSRF token requirement.
     
     Attributes:
         model (Salespeople): The model for the view.
@@ -232,8 +219,6 @@ class SalespeopleUpdateView(UpdateView):
 
     def form_valid(self, form):
         """
-        Handles the form submission when updating a Salespeople instance.
-        
         This method overrides the default implementation to validate the Salespeople form data. If there is a car selected, the car object is automatically validated. If valid, the car is marked as sold, assigned the current date as the date_sold and is assigned it to the salesperson.
         
         Args:
@@ -254,7 +239,7 @@ class SalespeopleUpdateView(UpdateView):
             selected_car.salesperson = salesperson  
             selected_car.save() 
             
-        salesperson.save()  # Save the salesperson
+        salesperson.save() 
 
         messages.success(self.request, 'Salesperson updated successfully.')
         return super().form_valid(form)
@@ -279,18 +264,7 @@ class SalespeopleDeleteView(DeleteView):
     
     def delete(self, request, *args, **kwargs):
         """
-        Deletes the Salespeople instance.
-        
-        This method overrides the default delete() method of the DeleteView class. It deletes the Salespeople instance, redirects to the success URL and displays a success message.
-        
-        Args:
-            request(HttpRequest): The HTTP request.
-            *args: Variable length argument list.
-            **kwargs: Arbitrary keyword arguments.
-            
-        Returns:
-            HttpResponse: The HTTP response for a valid form.
-            messages: The messages for a valid form.
+        Overrides the default delete() method of the DeleteView class. It deletes the Salespeople instance, redirects to the success URL and displays a success message.
         """
         response = super().delete(request, *args, **kwargs)
         messages.success(self.request, 'Salesperson deleted successfully.')

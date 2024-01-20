@@ -74,9 +74,7 @@ class Car(models.Model):
 
     def _generate_vin(self):
         """
-        Generate a random 17-character VIN (Vehicle Identification Number).
-
-        This method generates a random 17-character string that simulates a VIN, which is used to uniquely
+        Generates a random 17-character string that simulates a VIN, which is used to uniquely
         identify vehicles. Please note that this is a simplified example for demonstration purposes
         and doesn't adhere to actual VIN standards.
 
@@ -84,23 +82,19 @@ class Car(models.Model):
             self: An instance of the Car class.
 
         Returns:
-            vin: A string representing the VIN of the car.
+            vin(str): A string representing the VIN of the car.
         """
         return ''.join(random.choices(string.ascii_uppercase + string.digits, k=17))
     
     def formatted_mileage(self):
-        # add commas to the mileage
         return "{:,}".format(self.mileage)
     
     def formatted_price(self):
-        # add commas and format to 2 decimal places
         return "{:,.2f}".format(self.price)
     
     def mark_as_not_sold(self):
         """
-        Sets the sold attribute to false.
-        
-        This methods sets a previously sold car's sold attribute to false, sets the salesperson attribute to None and saves the car instance when the user marks the car as not sold.
+        Sets a previously sold car's sold attribute to false, sets the salesperson attribute to None and saves the car instance when the user marks the car as not sold.
         
         Args:
             self: An instance of the Car class.
@@ -114,10 +108,8 @@ class Car(models.Model):
 
     def clean(self):
         """
-        Performs data validation for the Car instance.
-
-        This method is used to validate the attributes of a Car instance before saving it to the database.
-        It checks for various validation rules and raises ValidationError if any of the rules are violated.
+        Validate the attributes of a Car instance before saving it to the database.
+        It checks for various validation rules and raises ValidationErrors if any of the rules are violated.
 
         Validation Rules:
         1. Car Existence Check:
@@ -142,10 +134,6 @@ class Car(models.Model):
 
         Raises:
             ValidationError: If any of the validation rules are violated.
-
-        Note:
-            This method is typically called automatically when saving a Car instance using Django's ModelForm,
-            ensuring that the data conforms to the specified validation rules before it is persisted in the database.
         """
         if self.make and self.model and self.year and self.color and self.mileage:
             if Car.objects.filter(make__iexact=self.make, model__iexact=self.model, year=self.year, color__iexact=self.color, mileage=self.mileage, car_type=self.car_type).exclude(id=self.id).exists():
@@ -162,13 +150,11 @@ class Car(models.Model):
     
     def save(self, *args, **kwargs):
         """
-        Saves the Car instance to the database.
-
         This method is used to save the Car instance to the database. It follows these steps:
-        1. Validates the Car instance using the clean() method to ensure data integrity.
-        2. Generates a Vehicle Identification Number (VIN) for the car if it doesn't already have one.
-        3. Capitalizes the 'make' and 'model' fields for consistency.
-        4. Saves the Car instance to the database by calling the save() method on the superclass and   passing in *args, **kwargs to ensure that the custom logic and default saving behavior are applied when saving a Car instance.
+            - The clean() method is called to validate the Car instance before saving.
+            - If the 'vin' field is empty, a VIN is generated.
+            - The 'make' and 'model' fields are capitalized for consistency.
+            - Finally, the Car instance is saved to the database.
 
         Args:
             self: An instance of the Car class.
@@ -177,15 +163,8 @@ class Car(models.Model):
             
         Returns:
             None
-
-        Note:
-            - The clean() method is called to validate the Car instance before saving.
-            - If the 'vin' field is empty, a VIN is generated.
-            - The 'make' and 'model' fields are capitalized for consistency.
-            - Finally, the Car instance is saved to the database.
         """
         self.clean()
-        # Generate VIN only if it doesn't exist
         if not self.vin:
             self.vin = self._generate_vin()
 
@@ -197,7 +176,6 @@ class Car(models.Model):
             else:
                 setattr(self, field_name, val.capitalize())
 
-        
         super(Car, self).save(*args, **kwargs)
 
     def __str__(self):

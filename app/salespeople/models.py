@@ -29,8 +29,7 @@ class Salespeople(models.Model):
     """
     
     phone_regex = RegexValidator(
-        regex=r'^\+?1?\d{9,15}$', 
-        message="Phone number must be entered in the format: '999-999-9999'. Up to 15 digits allowed."
+        regex = r'^((\d{3}-){2}\d{4})|\d{10}$'
     )
 
     first_name = models.CharField(max_length=50)
@@ -60,9 +59,7 @@ class Salespeople(models.Model):
     
     def clean(self):
         """
-        Validates the Salespeople instance data.
-        
-        This method validates the Salespeople attributes before saving it to the database. The following validation rules are used:
+        Validates the Salespeople attributes before saving it to the database. The following validation rules are used:
 
         Validation Rules:
         1. First and Last name must be unique: 
@@ -100,7 +97,7 @@ class Salespeople(models.Model):
             try:
                 validate_phone_number = self.phone_regex(self.phone_number)
             except ValidationError:
-                raise ValidationError("Invalid phone number format. Please use 999999999 format")
+                raise ValidationError("Invalid phone number format. Please use 9192129999 or 999-999-9999 format")
             
     def save(self, *args, **kwargs):
         """
