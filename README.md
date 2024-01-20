@@ -1,7 +1,7 @@
 # Car Dealership Project
 ![Car Dealership](car_app_img.PNG)
 
-The Car Dealership project is designed to manage and showcase [car inventory](https://github.com/Pia007/car_app/assets/66088725/cf9e33b6-95df-4707-a257-e5e612825e30) and [salesperson data](https://github.com/Pia007/car_app/assets/66088725/904c49b8-7b32-4294-8748-444bd377fc6b) for a dealership. This README outlines the structure and components of the project, including design documents, database schema, API, and additional development features.
+The Car Dealership project is designed to manage and showcase [car inventory](https://github.com/Pia007/car_app/assets/66088725/cf9e33b6-95df-4707-a257-e5e612825e30) and [salesperson data](https://github.com/Pia007/car_app/assets/66088725/904c49b8-7b32-4294-8748-444bd377fc6b) for a dealership. This README outlines the structure and components of the project, including design documents, database schema, API, and additional development features. The app is deployed [here](https://car-app-wjuvn76ckq-uc.a.run.app).   
 
 ## Technologies Used
 
@@ -19,7 +19,6 @@ The project directory includes the following components:
 
 ### Initial Design
 
-- **Entity-relationship Diagram**: Diagram showcasing the relationships between different entities in the database.
 
 - **Postgres Database Schema(Models)**: Detailed schema of the `PostgreSQL database`.
 
@@ -27,8 +26,7 @@ The project directory includes the following components:
 
   - **Foreign Key References**: Demonstrations of relationships: `1-to-Many`, `Many-to-1`
 
-  - **Generated ER Diagram using pgAdmin**
-
+- **Generated ER Diagram using pgAdmin**
 
   - ![ER Diagram](/images/car_app_erd.png)
 
