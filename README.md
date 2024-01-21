@@ -1,16 +1,16 @@
 # Car Dealership Project
 ![Car Dealership](car_app_img.PNG)
 
-The Car Dealership project is designed to manage and showcase [car inventory](https://github.com/Pia007/car_app/assets/66088725/cf9e33b6-95df-4707-a257-e5e612825e30) and [salesperson data](https://github.com/Pia007/car_app/assets/66088725/904c49b8-7b32-4294-8748-444bd377fc6b) for a dealership. This README outlines the structure and components of the project, including design documents, database schema, API, and additional development features. The app is deployed [here](https://car-app-wjuvn76ckq-uc.a.run.app).   
+The Car Dealership project is designed to manage and showcase [car inventory](https://github.com/Pia007/car_app/assets/66088725/cf9e33b6-95df-4707-a257-e5e612825e30) and [salesperson data](https://github.com/Pia007/car_app/assets/66088725/904c49b8-7b32-4294-8748-444bd377fc6b) for a dealership. This README outlines the structure and components of the project, including design documents, database schema, API, and additional development features. The application is currently deployed via the Google Cloud Platform and can be viewed [here](https://car-app-wjuvn76ckq-uc.a.run.app).   
 
 ## Technologies Used
 
 - **`Python`**: For building the backend logic and REST API.
 - **`PostgreSQL`**: As the database management system to store and manage data.
-- **`SQL`**: For database querying and manipulation.
 - **`Django`**: As the web framework for the REST API, utilizing Django's generic views for efficient development.
 - **`Docker`**: For containerization of the application.
 - **`pgAdmin`**: For database management and querying.
+- **`Google Cloud Platform`**: For deployment of the application.
 
 
 ## Project Structure
@@ -94,6 +94,17 @@ docker run -d --name car_app_container -p 8000:8000 car_app_image
 
 # The application is now running on http://localhost:8000/
 ``` 
+
+## Challenges
+
+- **`Flask -> Django`**: This project was initially started and the decision was made to convert to Django. This required a complete re-write of the application, including the database schema, API, and frontend. The task was challenging but also provided an opportunity to learn more about Django and its capabilities. Consulting the [Django documentation](https://docs.djangoproject.com/en/3.2/) was extremely helpful in this process.
+
+- **`Django Generic Views`**: Django's generic views were used to build the API. This required the use of classes to controll the logic of the views.  The generic views come with a lot of functionality and required some research and experimentation to understand how to implement them.
+
+- **`Django Templates`**: Django templates were used to build the frontend. The concept template inheritancem, tags, and filters was much more complex than the Flask templating engine. In some cases, the templates were not rendering as expected and required some troubleshooting to resolve.
+
+- **`Deployment`**: The application was deployed using the Google Cloud Platform. The course content and the GCP documentation were helpful in this process. The application is currently deployed via the Google Cloud Platform and can be viewed [here](https://car-app-wjuvn76ckq-uc.a.run.app).
+
 
 
 ## Further Development
