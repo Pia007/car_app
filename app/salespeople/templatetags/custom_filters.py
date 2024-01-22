@@ -5,9 +5,9 @@ register = template.Library()
 @register.filter(name='format_phone')
 def format_phone(value):
     """
-    A custom Django template filter to format a numeric phone number as xxx-xxx-xxxx.
+    A custom Django template filter to format a phone number as xxx-xxx-xxxx.
 
-    This filter takes a numeric phone number as input and formats it into a standard
+    This filter takes a phone number as input and formats it into a standard
     xxx-xxx-xxxx format for display in templates.
 
     Args:

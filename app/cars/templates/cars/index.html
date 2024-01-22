@@ -1,11 +1,15 @@
-{% extends "cars/base.html" %} {% load static %}{% block title %} Car Dealership
-{% endblock%} {% block content%}
-<div class="container text-light text-center my-xxl-5  pt-xxl-5 fst-italic">
-    <div class="d-flex justify-content-around align-content-center pt-xxl-5">
-        <h1 style="font-size: 120px; margin: 75px auto;">Car Dealership </h1>
+{% extends "cars/base.html" %} 
+{% load static %}
+{% block title %} Car Dealership {% endblock%} 
+
+{% block content%}
+    <div class="container text-light text-center my-5">
+        <div class="row justify-content-center">
+            <div class="col-12 col-md-8">
+                <h1 class="display-1">Car Dealership</h1>
+                <h3>An inventory and sales management system</h3>
+            </div>
+        </div>
     </div>
-    <div class="d-flex justify-content-around align-content-center">
-        <h2>An inventory and sales management system</h2>
-    </div>
-</div>
+
 {% endblock %} {% block jsfiles %} {% endblock jsfiles %}

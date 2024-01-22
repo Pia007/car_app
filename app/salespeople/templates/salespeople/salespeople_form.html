@@ -2,12 +2,11 @@
 
 {% block content %}
 <div class="container text-light">
-    <h2 class="my-3">{% if object %}Edit{% else %}Add{% endif %} Salesperson</h2>
+    <h2 class="my-3">{% if form.instance.id %}Edit{% else %}Add{% endif %} Salesperson</h2>
 
     <form method="post" class="border border-start-0 border-end-0 border-bottom-0 border-info py-3">
         {% csrf_token %}
 
-        <!-- Display non-field-specific errors -->
         {% if form.non_field_errors %}
             <div class="alert alert-danger">
                 {% for error in form.non_field_errors %}
@@ -16,22 +15,32 @@
             </div>
         {% endif %}
 
-        <!-- Display field-specific errors and fields -->
+        <!-- Loop through each field in the form -->
         {% for field in form %}
-            <p>
-                {{ field.label_tag }}<br>
-                {{ field }}
-                {% if field.errors %}
-                    <div class="alert alert-danger">
-                        {% for error in field.errors %}
-                            {{ error }}
-                        {% endfor %}
-                    </div>
+            <!-- Conditionally render the unsold_cars field only when editing -->
+            {% if field.name == 'unsold_cars' %}
+                {% if form.instance.id %}
+                    <p>
+                        {{ field.label_tag }}<br>
+                        {{ field }}
+                        {% if field.errors %}
+                            <span class="text-danger">{{ field.errors }}</span>
+                        {% endif %}
+                    </p>
                 {% endif %}
-            </p>
+            {% else %}
+                <!-- Render other fields normally -->
+                <p>
+                    {{ field.label_tag }}<br>
+                    {{ field }}
+                    {% if field.errors %}
+                        <span class="text-danger">{{ field.errors }}</span>
+                    {% endif %}
+                </p>
+            {% endif %}
         {% endfor %}
 
-        <button type="submit" class="btn btn-primary">{% if object %}Update{% else %}Create{% endif %} Salesperson</button>
+        <button type="submit" class="btn btn-primary">{% if form.instance.id %}Update{% else %}Create{% endif %} Salesperson</button>
         <a href="{% url 'salespeople_list' %}" class="btn btn-secondary">Cancel</a>
     </form>
 </div>
