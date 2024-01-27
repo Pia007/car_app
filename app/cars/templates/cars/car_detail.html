@@ -28,10 +28,10 @@
                 <a href="{% url 'car_delete' car.id %}" class="btn btn-danger">Delete</a> 
             </div>
             <div>
-                <a href="{% url 'car_list' %}" class="btn btn-secondary me-2">Back to List</a>
+                <a href="{% url 'car_list' %}" class="btn btn-secondary me-2 mb-2">Back to List</a>
                 <!-- Check if the car has an associated salesperson -->
                 {% if car.salesperson %}
-                    <a href="{% url 'salespeople_detail' car.salesperson.id %}" class="btn btn-secondary">Salesperson </a>
+                    <a href="{% url 'salespeople_detail' car.salesperson.id %}" class="btn btn-secondary mb-2">Salesperson </a>
                 {% else %}
                     <span class="btn btn-secondary disabled">No Salesperson</span>
                 {% endif %}

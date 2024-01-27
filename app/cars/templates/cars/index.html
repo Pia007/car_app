@@ -3,13 +3,19 @@
 {% block title %} Car Dealership {% endblock%} 
 
 {% block content%}
-    <div class="container text-light text-center my-5">
-        <div class="row justify-content-center">
-            <div class="col-12 col-md-8">
+    <div class="container-flex text-light text-center my-5 p-5">
+        <div class="row justify-content-center my-5">
+            <div class="col-12 col-md-8 my-5">
                 <h1 class="display-1">Car Dealership</h1>
                 <h3>An inventory and sales management system</h3>
             </div>
         </div>
     </div>
-
-{% endblock %} {% block jsfiles %} {% endblock jsfiles %}
+{% endblock %} 
+{% block jsfiles %}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+    });
+        </script>
+{% endblock jsfiles %}
