@@ -84,6 +84,111 @@
                     </tbody>
                 </table>
             </div>
+
+            {% if cars %}
+                <div class="table-responsive">
+                    <table class="table text-light my-5">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>VIN</th>
+                                <th>Make</th>
+                                <th>Model</th>
+                                <th>Price</th>
+                                <th>Year</th>
+                                <th>Mileage</th>
+                                <th>Color</th>
+                                <th>Car Type</th>
+                                <th>Sold</th>
+                                <th>Salesperson</th>
+                                <th class="d-none d-xxl-block">Actions</th> <!-- Hide the Actions column on small screens -->
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for car in cars %}
+                                <tr>
+                                    <!-- Other table cells -->
+                                    <td>{{ car.id }}</td>
+                                    <td class="d-xxl-none">
+                                        <a href="{% url 'car_detail' car.id %}">{{ car.vin }}</a>
+                                    </td>
+                                    <td class="d-none d-xxl-table-cell">
+                                        {{ car.vin }}
+                                    </td>
+                                    <td>{{ car.make }}</td>
+                                    <td>{{ car.model }}</td>
+                                    <td>${{ car.formatted_price }}</td>
+                                    <td>{{ car.year }}</td>
+                                    <td>{{ car.formatted_mileage }}</td>
+                                    <td>{{ car.color }}</td>
+                                    <td>{{ car.get_car_type_display }}</td>
+                                    <td>
+                                        {% if car.sold %}
+                                            <strong class="text-success">Yes</strong>
+                                        {% else %}
+                                            <strong class="text-danger">No</strong>
+                                        {% endif %}
+                                    </td> 
+                                    <td>
+                                        {% if car.salesperson %}
+                                            <a href="{% url 'salespeople_detail' car.salesperson.id %}">{{ car.salesperson.first_name }} {{ car.salesperson.last_name }}</a>
+                                        {% else %}
+                                            <strong class="text-danger">Not Assigned</strong>
+                                        {% endif %}
+                                    </td>
+                                    <td class="d-none d-xxl-block">
+                                        <a href="{% url 'car_edit' car.id %}" class="btn btn-primary">Edit</a>
+                                        <a href="{% url 'car_detail' car.id %}" class="btn btn-success">View</a> 
+                                        <a href="{% url 'car_delete' car.id %}" class="btn btn-danger">Delete</a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% endif %}
+
+            {% if page_obj.has_other_pages %}
+                <nav aria-label="Page navigation" class="justify-content-center">
+                    <ul class="pagination" style="display: flex; justify-content: center; list-style-type: none; padding: 0;">
+                        {% if page_obj.has_previous %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ page_obj.previous_page_number }}" aria-label="Previous">
+                                    <span aria-hidden="true">&laquo;</span>
+                                </a>
+                            </li>
+                        {% else %}
+                            <li class="page-item disabled">
+                                <span class="page-link">&laquo;</span>
+                            </li>
+                        {% endif %}
+
+                        {% for num in page_obj.paginator.page_range %}
+                            {% if page_obj.number == num %}
+                                <li class="page-item active">
+                                    <span class="page-link">{{ num }} <span class="sr-only">(current)</span></span>
+                                </li>
+                            {% else %}
+                                <li class="page-item">
+                                    <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+                                </li>
+                            {% endif %}
+                        {% endfor %}
+
+                        {% if page_obj.has_next %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ page_obj.next_page_number }}" aria-label="Next">
+                                    <span aria-hidden="true">&raquo;</span>
+                                </a>
+                            </li>
+                        {% else %}
+                            <li class="page-item disabled">
+                                <span class="page-link">&raquo;</span>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </nav>
+            {% endif %}
         {% else %}
             <p>No salespeople available.</p>
         {% endif %}

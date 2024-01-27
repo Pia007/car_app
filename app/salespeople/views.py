@@ -1,5 +1,6 @@
 from django.utils import timezone
 from django import forms
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
@@ -32,7 +33,6 @@ class SalespersonForm(forms.ModelForm):
             'first_name', 'last_name', 'email', 'phone_number', 'unsold_cars'
         ]
 
-
 class SalespeopleListView(ListView):
     """
     Displays a list of salespeople.
@@ -43,6 +43,7 @@ class SalespeopleListView(ListView):
         model (Salespeople): The model for the view.
         template_name (str): The template for the view.
         context_object_name (str): The context object name for the view.
+        paginate_by (int): The number of items per page.
 
     Methods:
         get_queryset: Returns the queryset for the view.
@@ -51,6 +52,7 @@ class SalespeopleListView(ListView):
     model = Salespeople
     template_name = 'salespeople/salespeople_list.html'
     context_object_name = 'salespeople'
+    paginate_by = 7
 
     def get_queryset(self):
         """
@@ -123,10 +125,27 @@ class SalespeopleListView(ListView):
         return queryset
 
     def get_context_data(self, **kwargs):
-        """ Adds the order to the context data.  """
+        """ 
+        Adds the order to the context data and adds pagination to allow the user to navigate through the pages of the list of salespeople.
+        """
         context = super().get_context_data(**kwargs)
-        return context
+        
+        # Create a Paginator object
+        paginator = Paginator(self.get_queryset(), self.paginate_by)  
+        page = self.request.GET.get('page')
 
+        try:
+            salespeople = paginator.page(page)
+        except PageNotAnInteger:
+            # If page is not an integer, deliver first page
+            salespeople = paginator.page(1)
+        except EmptyPage:
+            # If page is out of range, deliver last page of results
+            salespeople = paginator.page(paginator.num_pages)
+
+        context['page_obj'] = salespeople
+        
+        return context
 
 class SalespeopleDetailView(DetailView):
     """
@@ -159,7 +178,6 @@ class SalespeopleDetailView(DetailView):
         salesperson = self.get_object()
         context['total_commission'] = salesperson.total_commission()
         return context
-
 
 @method_decorator(csrf_exempt, name='dispatch')
 class SalespeopleCreateView(CreateView):
@@ -253,7 +271,6 @@ class SalespeopleUpdateView(UpdateView):
         salesperson.save()
         messages.success(self.request, 'Salesperson updated successfully.')
         return super().form_valid(form)
-
 
 class SalespeopleDeleteView(DeleteView):
     """

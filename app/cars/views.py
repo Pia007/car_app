@@ -1,4 +1,5 @@
 from django import forms
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.shortcuts import get_object_or_404, redirect
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
@@ -54,9 +55,10 @@ class CarListView(ListView):
     This class extends ListView and is used to display a list of cars in the web application. It retrieves a queryset of cars from the database and renders it in a template. It also provides filtering and ordering options to filter.
 
     Attributes:
-        - model: The model associated with this view is the Car model.
-        - template_name: The associated template 'cars/list.html' is used for rendering the list of cars.
-        - context_object_name: The context variable name is 'cars'.
+        - model (Car): The model associated with this view is the Car model.
+        - template_name (str): The associated template 'cars/list.html' is used for rendering the list of cars.
+        - context_object_name (str): The context variable name is 'cars'.
+        - paginate_by (int): The number of items per page.
 
     Methods:
         - get_queryset(): Returns a filtered and ordered queryset of Car instances.
@@ -65,6 +67,7 @@ class CarListView(ListView):
     model = Car
     template_name = 'cars/car_list.html'
     context_object_name = 'cars'
+    paginate_by = 7  # the number of items per page
 
     def get_queryset(self):
         """     
@@ -134,7 +137,7 @@ class CarListView(ListView):
     
     def get_context_data(self, **kwargs):
         """ 
-        Retrieves distinct values for various car attributes (makes, models, colors, years, and car types) and adds them to the context dictionary. These values are used to provide filter options on the webpage.
+        Retrieves distinct values for various car attributes (makes, models, colors, years, and car types) and adds them to the context dictionary. These values are used to provide filter options on the webpage. Pagination is also added to allow for pagination of the list of cars.
         
         Args:
             **kwargs: Arbitrary keyword arguments.
@@ -155,6 +158,20 @@ class CarListView(ListView):
         context['colors'] = colors
         context['years'] = years
         context['car_types'] = car_types
+        
+        paginator = Paginator(self.get_queryset(), self.paginate_by)  # create a Paginator object
+        page = self.request.GET.get('page')
+
+        try:
+            cars = paginator.page(page)
+        except PageNotAnInteger:
+            # if page is not an integer, deliver first page
+            cars = paginator.page(1)
+        except EmptyPage:
+            # if page is out of range, deliver last page of results
+            cars = paginator.page(paginator.num_pages)
+
+        context['page_obj'] = cars
         
         return context
 
