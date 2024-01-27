@@ -52,7 +52,7 @@
         </div>
     </nav>
     <div class="body-content">{% block content %}{% endblock content %}</div>
-    <footer class="page-footer font-small py-0">           
+    <footer class="page-footer font-small py-0 fixed-bottom">           
         <div class="text-center">
             <p class="text-light small-print">
                 &copy; <span id="current-year"></span> Pia Torain. All rights reserved.
@@ -64,6 +64,16 @@
         <script>
             document.addEventListener('DOMContentLoaded', function() {
                 document.getElementById('current-year').textContent = new Date().getFullYear();
+            });
+        </script>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                var footer = document.querySelector('.page-footer');
+                var fixedFooterPages = ['/cars/', '/cars/new/', '/salespeople/'];
+
+                if (fixedFooterPages.includes(window.location.pathname)) {
+                    footer.classList.remove('fixed-bottom');
+                } 
             });
         </script>
     {% endblock jsfiles %}

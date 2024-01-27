@@ -33,7 +33,7 @@
                 {% if car.salesperson %}
                     <a href="{% url 'salespeople_detail' car.salesperson.id %}" class="btn btn-secondary mb-2">Salesperson </a>
                 {% else %}
-                    <span class="btn btn-secondary disabled">No Salesperson</span>
+                    <span class="btn btn-secondary mb-2 disabled">No Salesperson</span>
                 {% endif %}
             </div>
         </div>

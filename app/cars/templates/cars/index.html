@@ -11,11 +11,12 @@
             </div>
         </div>
     </div>
+
 {% endblock %} 
 {% block jsfiles %}
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-        document.getElementById('current-year').textContent = new Date().getFullYear();
-    });
-        </script>
+            document.getElementById('current-year').textContent = new Date().getFullYear();
+        });
+    </script>
 {% endblock jsfiles %}
