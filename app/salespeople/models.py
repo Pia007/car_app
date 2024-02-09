@@ -1,3 +1,4 @@
+import re
 from decimal import Decimal
 from django.db import models
 from django.forms import ValidationError
@@ -103,7 +104,9 @@ class Salespeople(models.Model):
         """
         Saves the Salespeople instance to the database.
         
-        This method calls the clean() method to validate the salespeople data. If the data is valid it capitalizes the first and last names and saves the Salespeople instance by calling the save() method of the superclass and passing in *args and **kwargs to ensure that the custom logic and default saving behavior are applied when saving a Salespeople instance.
+        This method calls the clean() method to validate the salespeople data. If the data is valid it capitalizes the first and last names and saves the Salespeople instance by calling the save() 
+        method of the superclass and passing in *args and **kwargs to ensure that the custom logic and default saving behavior are applied when saving a Salespeople instance. If the data contains a
+        hyphen it will split the string on hyphens and spaces, capitalize the first letter of each part, and join them back together. And handles instances where the last name starts with 'Mc'.
         
         Args:
             self: The Salespeople instance.
@@ -115,11 +118,24 @@ class Salespeople(models.Model):
         """
         self.clean()
 
-        for field_name in ['first_name', 'last_name']:
-            val = getattr(self, field_name, False)
+    def custom_capitalize(self, s):
+        # Function to handle 'Mc' names
+        def mc_name(name):
+            if name.lower().startswith('mc') and len(name) > 2:
+                return 'Mc' + name[2].upper() + name[3:].lower()
+            else:
+                return name.capitalize()
 
+        # Split on hyphens and spaces for regular capitalization
+        parts = re.split(r'[-\s]', s)
+        capitalized_parts = [mc_name(part) for part in parts]
+        return '-'.join(capitalized_parts) if '-' in s else ' '.join(capitalized_parts)
+
+    def save(self, *args, **kwargs):
+        for field_name in ['first_name', 'last_name']:
+            val = getattr(self, field_name, "").strip()
             if val:
-                setattr(self, field_name, val.capitalize())
+                setattr(self, field_name, self.custom_capitalize(val))
 
         super(Salespeople, self).save(*args, **kwargs)
 

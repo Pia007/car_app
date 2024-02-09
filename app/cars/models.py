@@ -174,13 +174,19 @@ class Car(models.Model):
         if not self.vin:
             self.vin = self._generate_vin()
 
+        def custom_title(s):
+            special_cases = {"Mach-e": "Mach-E"}  # Add more special cases as needed
+            words = s.split()
+            titled_words = [special_cases.get(word.lower(), word.title()) for word in words]
+            return ' '.join(titled_words)
+
         for field_name in ['make', 'model', 'color']:
-            val = getattr(self, field_name, False)
+            val = getattr(self, field_name, "").strip()
             # accounts for BMW, GMC, etc.
             if len(val) == 3:
                 setattr(self, field_name, val.upper())
             else:
-                setattr(self, field_name, val.capitalize())
+                setattr(self, field_name, custom_title(val))
 
         super(Car, self).save(*args, **kwargs)
 
