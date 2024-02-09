@@ -1,3 +1,4 @@
+from django.utils import timezone
 from django.db import models
 from django.forms import ValidationError
 import string
@@ -128,6 +129,7 @@ class Car(models.Model):
         4. Sale Date Validation:
             - If a 'date_sold' is specified, it checks for the presence of 'salesperson' and 'sold' status.
             - If 'salesperson' or 'sold' status is missing when a sale date is set, it raises a ValidationError.
+            - It also checks if the 'date_sold' is not in the future. If it is, it raises a ValidationError.
 
         Args:
             self: An instance of the Car class.
@@ -147,6 +149,10 @@ class Car(models.Model):
 
         if self.date_sold and (not self.salesperson or not self.sold):
             raise ValidationError("Sold status and Salesperson are required when a sale date is set.")
+        
+        #make sure date_sold is not in the future
+        if self.date_sold and self.date_sold > timezone.now().date():
+            raise ValidationError("Date sold cannot be in the future.")
     
     def save(self, *args, **kwargs):
         """
