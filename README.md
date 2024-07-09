@@ -74,6 +74,9 @@ python -m venv venv
 # activate the virtual environment:
 . venv/scripts/activate
 
+# navigate to app directory:
+cd car_app
+
 # install the required packages:
 pip install -r requirements.txt
 
