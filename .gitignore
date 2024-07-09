@@ -9,3 +9,7 @@ venv/
 
 #add notes.txt
 notes.txt  
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]

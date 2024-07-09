@@ -9,30 +9,58 @@
 
         <!-- Display non-field-specific errors -->
         {% if form.non_field_errors %}
-            <div class="alert alert-danger">
-                {% for error in form.non_field_errors %}
-                    {{ error }}
-                {% endfor %}
-            </div>
+        <div class="alert alert-danger">
+            {% for error in form.non_field_errors %}
+            {{ error }}
+            {% endfor %}
+        </div>
         {% endif %}
 
         <!-- Display field-specific errors and fields -->
         {% for field in form %}
-            <p>
-                {{ field.label_tag }}<br>
-                {{ field }}
-                {% if field.errors %}
-                    <div class="alert alert-danger">
-                        {% for error in field.errors %}
-                            {{ error }}
-                        {% endfor %}
-                    </div>
-                {% endif %}
-            </p>
+        <p>
+            {{ field.label_tag }}<br>
+            {% if field.name == 'date_sold' %}
+            <!-- Replace 'date_field_name' with the actual name of your date field -->
+            {{ field }} <!-- No need for special ID, flatpickr will target it by name -->
+            {% else %}
+            {{ field }}
+            {% endif %}
+            {% if field.errors %}
+        <div class="alert alert-danger">
+            {% for error in field.errors %}
+            {{ error }}
+            {% endfor %}
+        </div>
+        {% endif %}
+        </p>
         {% endfor %}
 
         <button type="submit" class="btn btn-primary">{% if object %}Update{% else %}Create{% endif %} Car</button>
         <a href="{% url 'car_list' %}" class="btn btn-secondary">Cancel</a>
     </form>
 </div>
+
+<!-- Include flatpickr CSS and JS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
+<style>
+    .flatpickr-alt,
+    .form-control {
+        box-sizing: border-box;
+        max-width: 167px;
+    }
+</style>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        flatpickr("input[name='date_sold']", {
+            dateFormat: "Y-m-d", // Set the date format to YYYY-MM-DD
+            altInput: true, // Display the date in the altInput field
+            altFormat: "Y-m-d", // Set the altInput date format to Month Day, Year
+            altInputClass: "form-control", // Add the form-control class to the altInput field
+        });
+    });
+</script>
 {% endblock %}

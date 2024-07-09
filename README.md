@@ -77,6 +77,9 @@ python -m venv venv
 # install the required packages:
 pip install -r requirements.txt
 
+# make migrations:
+python manage.py makemigrations
+
 # run database migrations:
 python manage.py migrate
 

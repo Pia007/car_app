@@ -35,6 +35,7 @@ class CarForm(forms.ModelForm):
             'id', 'make', 'model', 'year', 'color', 'price', 'mileage', 'sold', 'date_sold',
             'car_type', 'salesperson'
         ]
+        
 class HomePageView(TemplateView):
     """
     Displays the main landing page for the Car app.
