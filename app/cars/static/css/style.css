@@ -1,0 +1,55 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    height: 100%;
+}
+.body-content {
+    min-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.title{
+    /* font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; */
+    /* font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; */
+    font-family: "Futura", sans-serif;
+
+}
+
+.car-detail-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.car-details {
+    flex: 1;
+    /* min-width: 300px; */
+}
+/* Fixed width for the image container */
+.car-image {
+    /* flex: 0 0 300px;  */
+    align-items: center;
+}
+
+.car-image img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 5px; /* Optional: to give the image rounded corners */
+}
+
+.default-img {
+    padding: 50px 0;
+}
+
+@media (max-width: 767.98px) {
+    .car-detail-container {
+        flex-direction: column-reverse;
+    }
+
+    .car-image {
+        /* order: 2; */
+        margin-bottom: 20px;
+    }
+}

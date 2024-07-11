@@ -11,7 +11,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous" />
     <!-- custom css -->
-    <link rel="stylesheet" href="/static/css/custom.css" />
+    <link rel="stylesheet" href="{% static 'css/style.css' %}"> <!-- Add this line to load the CSS file -->
     <title>{% block title %}Car Dealership{% endblock %}</title>
     {% block extrahead %} {% endblock %}
     <!-- Bootstrap Core JavaScript -->
@@ -52,7 +52,7 @@
         </div>
     </nav>
     <div class="body-content">{% block content %}{% endblock content %}</div>
-    <footer class="page-footer font-small py-0 fixed-bottom">           
+    <footer class="page-footer font-small py-0">           
         <div class="text-center">
             <p class="text-light small-print">
                 &copy; <span id="current-year"></span> Pia Torain. All rights reserved.

@@ -1,42 +1,72 @@
 {% extends "cars/car_list.html" %}
 
-{% block content %}
-    <div class="container text-light">
-        <h2>Car Details</h2>
-        <p><strong>VIN:</strong> {{ car.vin }}</p>
-        <p><strong>Make:</strong> {{ car.make }}</p>
-        <p><strong>Model:</strong> {{ car.model }}</p>
-        <p><strong>Year:</strong> {{ car.year }}</p>
-        <p><strong>Color:</strong> {{ car.color }}</p>
-        <p><strong>Price:</strong> ${{ car.formatted_price }}</p>
-        <p><strong>Mileage:</strong> {{ car.formatted_mileage }}</p>
-        <p><strong>Sold:</strong> {{ car.sold }}</p>
-        <p><strong>Date Sold:</strong> {{ car.date_sold }}</p>
+{% load static %}
 
-        {% if car.salesperson %}
-            <p><strong>Salesperson:</strong> 
+{% block title %}Car Details{% endblock %}
+
+{% block content %}
+<div class="container text-light">
+    <h2>Car Details</h2>
+    <div class="car-detail-container row">
+        <div class="car-details">
+            <p><strong>VIN:</strong> {{ car.vin }}</p>
+            <p><strong>Make:</strong> {{ car.make }}</p>
+            <p><strong>Model:</strong> {{ car.model }}</p>
+            <p><strong>Year:</strong> {{ car.year }}</p>
+            <p><strong>Color:</strong> {{ car.color }}</p>
+            <p><strong>Price:</strong> ${{ car.formatted_price }}</p>
+            <p><strong>Mileage:</strong> {{ car.formatted_mileage }}</p>
+            <p><strong>Sold:</strong> {{ car.sold }}</p>
+            <p><strong>Date Sold:</strong> {{ car.date_sold }}</p>
+
+            {% if car.salesperson %}
+            <p><strong>Salesperson:</strong>
                 <a href="{% url 'salespeople_detail' car.salesperson.id %}">
                     {{ car.salesperson.first_name }} {{ car.salesperson.last_name}}
                 </a>
             </p>
-        {% endif %}
+            {% endif %}
 
-        <p><strong>Type:</strong> {{ car.get_car_type_display }}</p> <!-- Added line for car type -->
-        <div class="d-flex flex-column flex-md-row justify-content-between">
+            <p><strong>Type:</strong> {{ car.get_car_type_display }}</p>
+        </div>
+        <div class="car-image col-md-6">
+            {% if car.car_type == 'SUV' %}
+            <img src="{% static 'images/suv.png' %}" alt="SUV Image" class="img-fluid">
+            {% elif car.car_type == 'Truck' %}
+            <img src="{% static 'images/pickup.png' %}" alt="Pickup Truck Image" class="img-fluid">
+            {% else %}
+            <img src="{% static 'images/car.png' %}" alt="Default Car Image" class="img-fluid default-img">
+            {% endif %}
+        </div>
+
+        
+        <!-- </div> -->
+        <!-- Image selection based on car type -->
+        <!-- <div class="car-image col-md-4 order-md-first">
+            {% if car.car_type == 'SUV' %}
+            <img src="{% static 'images/suv.png' %}" alt="SUV Image" class="img-fluid">
+            {% elif car.car_type == 'Truck' %}
+            <img src="{% static 'images/pickup.png' %}" alt="Pickup Truck Image" class="img-fluid">
+            {% else %}
+            <img src="{% static 'images/car.png' %}" alt="Default Car Image" class="img-fluid">
+            {% endif %}
+        </div> -->
+    </div>
+    <div class="row">
+        <div class="d-flex flex-row justify-content-between">
             <div class="mb-2 mb-md-0">
-                <a href="{% url 'car_edit' car.id %}" class="btn btn-primary me-2">Edit</a> 
-                <a href="{% url 'car_delete' car.id %}" class="btn btn-danger">Delete</a> 
+                <a href="{% url 'car_edit' car.id %}" class="btn btn-primary me-2">Edit</a>
+                <a href="{% url 'car_delete' car.id %}" class="btn btn-danger">Delete</a>
             </div>
-            <div>
+            <div class="">
                 <a href="{% url 'car_list' %}" class="btn btn-secondary me-2 mb-2">Back to List</a>
                 <!-- Check if the car has an associated salesperson -->
                 {% if car.salesperson %}
-                    <a href="{% url 'salespeople_detail' car.salesperson.id %}" class="btn btn-secondary mb-2">Salesperson </a>
+                <a href="{% url 'salespeople_detail' car.salesperson.id %}" class="btn btn-secondary mb-2">Salesperson</a>
                 {% else %}
-                    <span class="btn btn-secondary mb-2 disabled">No Salesperson</span>
+                <span class="btn btn-secondary mb-2 disabled">No Salesperson</span>
                 {% endif %}
             </div>
         </div>
     </div>
 {% endblock %}
-
