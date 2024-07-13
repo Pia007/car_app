@@ -13,7 +13,7 @@
             <p><strong>Make:</strong> {{ car.make }}</p>
             <p><strong>Model:</strong> {{ car.model }}</p>
             <p><strong>Year:</strong> {{ car.year }}</p>
-            <p><strong>Color:</strong> {{ car.color }}</p>
+            <p><strong>Color:</strong> {{ car.get_car_color_display}}</p>
             <p><strong>Price:</strong> ${{ car.formatted_price }}</p>
             <p><strong>Mileage:</strong> {{ car.formatted_mileage }}</p>
             <p><strong>Sold:</strong> {{ car.sold }}</p>
@@ -29,40 +29,64 @@
 
             <p><strong>Type:</strong> {{ car.get_car_type_display }}</p>
         </div>
-        <div class="car-image col-md-6">
-            {% if car.car_type == 'SUV' %}
-            <img src="{% static 'images/suv.png' %}" alt="SUV Image" class="img-fluid">
+        <div class="car-image col-md-8">
+            {% if car.car_type == 'SUV' and car.car_color == 'Black'%}
+                <img src="{% static 'images/bl-suv.png' %}" alt="SUV " class="img-fluid">
+            {% elif car.car_type == 'Truck' and car.car_color == 'Black'%}
+                <img src="{% static 'images/bk_pu.png' %}" alt="Pickup Truck " class="img-fluid">
+            {% elif car.car_type == 'Sedan' and car.car_color == 'Black'%}
+                <img src="{% static 'images/bk_car.png' %}" alt="Black Sedan" class="img-fluid">
+            {% elif car.car_type == 'Convertible' and car.car_color == 'Black'%}
+                <img src="{% static 'images/bl_con.png' %}" alt="Convertible" class="img-fluid">
+            {% elif car.car_type == 'Truck' and car.car_color == 'Blue'%}
+                <img src="{% static 'images/bu_pu.png' %}" alt="Blue Pickup Truck " class="img-fluid">
+            {% elif car.car_type == 'Sedan' and car.car_color == 'Blue'%}
+                <img src="{% static 'images/bu_car.png' %}" alt="Blue Sedan class="img-fluid">
+            {% elif car.car_type == 'Convertible' and car.car_color == 'Blue'%}
+                <img src="{% static 'images/bu_con.png' %}" alt="Blue Convertible" class="img-fluid">
+            {% elif car.car_type == 'Coupe' and car.car_color == 'Blue'%}
+                <img src="{% static 'images/bu_hb.png' %}" alt="Blue Coupe" class="img-fluid">
+            {% elif car.car_type == 'Sedan' and car.car_color == 'Red'%}
+                <img src="{% static 'images/rd_car.png' %}" alt="Red Sedan class="img-fluid">
+            {% elif car.car_type == 'Convertible' and car.car_color == 'Red'%}
+                <img src="{% static 'images/rd_con.png' %}" alt="Red Convertible" class="img-fluid">
+            {% elif car.car_type == 'Truck' and car.car_color == 'Red'%}
+                <img src="{% static 'images/rd_pu.png' %}" alt="Red Pickup Truck" class="img-fluid">
+            {% elif car.car_type == 'Sedan' and car.car_color == 'Silver'%}
+                <img src="{% static 'images/sil_car.png' %}" alt="Silver Convertible" class="img-fluid">
+            {% elif car.car_type == 'Truck' and car.car_color == 'Silver'%}
+                <img src="{% static 'images/sil_pu.png' %}" alt="Silver Pickup" class="img-fluid">
+            {% elif car.car_type == 'Sedan' and car.car_color == 'Orange'%}
+                <img src="{% static 'images/or_car.png' %}" alt="Orange Sedan" class="img-fluid">
+            {% elif car.car_type == 'SUV' and car.car_color == 'Orange'%}
+                <img src="{% static 'images/or_suv.png' %}" alt="Orange SUV" class="img-fluid">
+            {% elif car.car_type == 'SUV'%}
+                <img src="{% static 'images/suv.svg' %}" alt="SUV" class="img-fluid py-3">
             {% elif car.car_type == 'Truck' %}
-            <img src="{% static 'images/pickup.png' %}" alt="Pickup Truck Image" class="img-fluid">
+                <img src="{% static 'images/pickup.png' %}" alt="Default Pickup Truck" class="img-fluid">
+            {% elif car.car_type == 'Convertible' %}
+                <img src="{% static 'images/con.png' %}" alt="Default Convertible" class="img-fluid">
             {% else %}
-            <img src="{% static 'images/car.png' %}" alt="Default Car Image" class="img-fluid default-img">
+                <img src="{% static 'images/cd.png' %}" alt="Default Car" class="img-fluid default-img p-2">
+            {% endif %}
+            {% if car.car_type %}
+                <p class="text-center text-warning img-text">Generic stock image. {{car.car_color}} {{car.make}} {{car.model}} coming
+                    soon.</p>
             {% endif %}
         </div>
 
-        
-        <!-- </div> -->
-        <!-- Image selection based on car type -->
-        <!-- <div class="car-image col-md-4 order-md-first">
-            {% if car.car_type == 'SUV' %}
-            <img src="{% static 'images/suv.png' %}" alt="SUV Image" class="img-fluid">
-            {% elif car.car_type == 'Truck' %}
-            <img src="{% static 'images/pickup.png' %}" alt="Pickup Truck Image" class="img-fluid">
-            {% else %}
-            <img src="{% static 'images/car.png' %}" alt="Default Car Image" class="img-fluid">
-            {% endif %}
-        </div> -->
     </div>
     <div class="row">
         <div class="d-flex flex-row justify-content-between">
             <div class="mb-2 mb-md-0">
-                <a href="{% url 'car_edit' car.id %}" class="btn btn-primary me-2">Edit</a>
-                <a href="{% url 'car_delete' car.id %}" class="btn btn-danger">Delete</a>
+                <a href="{% url 'car_edit' car.id %}" class="btn btn-primary me-2  ">Edit</a>
+                <a href="{% url 'car_delete' car.id %}" class="btn btn-danger ">Delete</a>
             </div>
             <div class="">
-                <a href="{% url 'car_list' %}" class="btn btn-secondary me-2 mb-2">Back to List</a>
+                <a href="{% url 'car_list' %}" class="btn btn-secondary me-2 mb-2 ">Back to List</a>
                 <!-- Check if the car has an associated salesperson -->
                 {% if car.salesperson %}
-                <a href="{% url 'salespeople_detail' car.salesperson.id %}" class="btn btn-secondary mb-2">Salesperson</a>
+                <a href="{% url 'salespeople_detail' car.salesperson.id %}" class="btn btn-secondary mb-2 ">Salesperson</a>
                 {% else %}
                 <span class="btn btn-secondary mb-2 disabled">No Salesperson</span>
                 {% endif %}

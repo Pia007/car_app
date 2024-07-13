@@ -16,13 +16,14 @@ body, html {
     font-family: "Futura", sans-serif;
 
 }
-
+.car-home {
+    width: 1000px
+}
 .car-detail-container {
     display: flex;
     flex-wrap: wrap;
     gap: 20px;
 }
-
 .car-details {
     flex: 1;
     /* min-width: 300px; */
@@ -32,15 +33,17 @@ body, html {
     /* flex: 0 0 300px;  */
     align-items: center;
 }
-
 .car-image img {
     max-width: 100%;
     height: auto;
     border-radius: 5px; /* Optional: to give the image rounded corners */
 }
-
 .default-img {
     padding: 50px 0;
+}
+
+.img-text{
+    font-size: .75rem;
 }
 
 @media (max-width: 767.98px) {
@@ -53,3 +56,5 @@ body, html {
         margin-bottom: 20px;
     }
 }
+
+

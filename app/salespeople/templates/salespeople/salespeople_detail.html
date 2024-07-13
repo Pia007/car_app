@@ -29,7 +29,7 @@
         <div>
             <h3 class="mt-3">Sales</h3>
             <div class="table-responsive">
-                <table class="table table-bordered text-light">
+                <table class="table table-dark table-bordered table-hover border-success text-light">
                     <thead>
                         <tr>
                             <th>VIN</th>
@@ -38,22 +38,22 @@
                             <th>Year</th>
                             <th>Price</th>
                             <th>Commission</th> 
-                            <th class="d-none d-lg-block">Actions</th>
+                            <th class="d-none d-xl-block">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
                         {% for car in salespeople.sold_cars.all %}
                         <tr>
                             <td class="d-lg-none">
-                                <a href="{% url 'car_detail' car.id %}">{{ car.vin }}</a>
+                                <a class="text-decoration-none" href="{% url 'car_detail' car.id %}">{{ car.vin }}</a>
                             </td>
-                            <td class="d-none d-lg-block">{{ car.vin }}</td>
-                            <td>{{ car.make }}</td>
-                            <td>{{ car.model }}</td>
-                            <td>{{ car.year }}</td>
-                            <td>${{ car.formatted_price }}</td>
-                            <td>${{ car.calculate_commission|floatformat:2|intcomma }}</td> 
-                            <td class="d-none d-lg-block">
+                            <td class="d-none d-lg-block py-lg-3">{{ car.vin }}</td>
+                            <td class="py-lg-3">{{ car.make }}</td>
+                            <td class="py-lg-3">{{ car.model }}</td>
+                            <td class="py-lg-3">{{ car.year }}</td>
+                            <td class="py-lg-3">${{ car.formatted_price }}</td>
+                            <td class="text-success fw-bold py-lg-3">${{ car.calculate_commission|floatformat:2|intcomma }}</td> 
+                            <td class="d-none d-xl-block">
                                 <a href="{% url 'car_edit' car.id %}" class="btn btn-primary">Edit</a> 
                                 <a href="{% url 'car_detail' car.id %}" class="btn btn-success">View</a> 
                                 <a href="{% url 'mark_car_not_sold' car.id %}" class="btn btn-warning">Mark as Not Sold</a>

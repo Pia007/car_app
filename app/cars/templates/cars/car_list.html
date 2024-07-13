@@ -61,11 +61,11 @@
                     </div>
                     <div class="col-12 col-md-6 col-lg-3">
                         <div class="form-group col">
-                        <label for="color_filter" class="fw-bold"> Color</label>
-                        <select name="color_filter" id="color_filter" class="form-control">
+                        <label for="car_color_filter" class="fw-bold"> Car Color</label>
+                        <select name="car_color_filter" id="car_color_filter" class="form-control">
                             <option value="">All Colors</option>
-                                {% for color in colors %}
-                            <option class="fw-bold" value="{{ color }}">{{ color }}</option>
+                                {% for car_color in car_colors %}
+                            <option class="fw-bold" value="{{ car_color }}">{{ car_color }}</option>
                             {% endfor %}
                         </select>
                         </div>
@@ -117,7 +117,7 @@
 
         {% if cars %}
             <div class="table-responsive">
-                <table class="table text-light my-5">
+                <table class="table table-dark table-bordered table-hover text-light border-primary align-middle my-5">
                     <thead>
                         <tr>
                             <th>ID</th>
@@ -127,7 +127,7 @@
                             <th>Price</th>
                             <th>Year</th>
                             <th>Mileage</th>
-                            <th>Color</th>
+                            <th>Car Color</th>
                             <th>Car Type</th>
                             <th>Sold</th>
                             <th>Salesperson</th>
@@ -140,17 +140,17 @@
                                 <!-- Other table cells -->
                                 <td>{{ car.id }}</td>
                                 <td class="d-xxl-none">
-                                    <a href="{% url 'car_detail' car.id %}">{{ car.vin }}</a>
+                                    <a class="text-decoration-none" href="{% url 'car_detail' car.id %}">{{ car.vin }}</a>
                                 </td>
-                                <td class="d-none d-xxl-table-cell">
+                                <td class="d-none d-xxl-table-cell ">
                                     {{ car.vin }}
                                 </td>
-                                <td>{{ car.make }}</td>
+                                <td class="align-middle">{{ car.make }}</td>
                                 <td>{{ car.model }}</td>
                                 <td>${{ car.formatted_price }}</td>
                                 <td>{{ car.year }}</td>
                                 <td>{{ car.formatted_mileage }}</td>
-                                <td>{{ car.color }}</td>
+                                <td>{{ car.get_car_color_display }}</td>
                                 <td>{{ car.get_car_type_display }}</td>
                                 <td>
                                     {% if car.sold %}
@@ -161,14 +161,14 @@
                                 </td> 
                                 <td>
                                     {% if car.salesperson %}
-                                        <a href="{% url 'salespeople_detail' car.salesperson.id %}">{{ car.salesperson.first_name }} {{ car.salesperson.last_name }}</a>
+                                        <a class="text-decoration-none" href="{% url 'salespeople_detail' car.salesperson.id %}">{{ car.salesperson.first_name }} {{ car.salesperson.last_name }}</a>
                                     {% else %}
                                         <strong class="text-danger">Not Assigned</strong>
                                     {% endif %}
                                 </td>
-                                <td class="d-none d-xxl-block">
+                                <td class="d-none d-xxl-block custom-padding">
                                     <a href="{% url 'car_edit' car.id %}" class="btn btn-primary">Edit</a>
-                                    <a href="{% url 'car_detail' car.id %}" class="btn btn-success">View</a> 
+                                    <a href="{% url 'car_detail' car.id %}" class="btn btn-success">View</a>
                                     <a href="{% url 'car_delete' car.id %}" class="btn btn-danger">Delete</a>
                                 </td>
                             </tr>

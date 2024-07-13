@@ -39,13 +39,40 @@ class Car(models.Model):
     make = models.CharField(max_length=50, blank=False, null=False)
     model = models.CharField(max_length=50, blank=False, null=False)
     year = models.IntegerField(blank=False, null=False)
-    color = models.CharField(max_length=20, blank=False, null=False)
+    # color = models.CharField(max_length=20, blank=False, null=False)
     price = models.IntegerField(blank=False, null=False)
     mileage = models.IntegerField(blank=True, null=True)
     sold = models.BooleanField(default=False)
     date_sold = models.DateField(blank=True, null=True)
     salesperson = models.ForeignKey('salespeople.Salespeople', on_delete=models.SET_NULL, null=True, blank=True, related_name='sold_cars')
     vin = models.CharField(max_length=17, unique=True, blank=True) 
+
+    """ Car Colors """
+    BLACK = 'Black'
+    BLUE = 'Blue'
+    BROWN = 'Brown'
+    GOLD = 'Gold'
+    GREEN = 'Green'
+    GREY = 'Grey'
+    ORANGE = 'Orange'
+    RED = 'Red'
+    SILVER = 'Silver'
+    WHITE = 'White'
+    CAR_COLOR_CHOICES = [
+        (BLACK, 'Black'),
+        (BLUE, 'Blue'),
+        (BROWN, 'Brown'),
+        (GOLD, 'Gold'),
+        (GREEN, 'Green'),
+        (GREY, 'Grey'),
+        (ORANGE, 'Orange'),
+        (RED, 'Red'),
+        (SILVER, 'Silver'),
+        (WHITE, 'White'),
+    ]
+
+    car_color = models.CharField(max_length=15, choices=CAR_COLOR_CHOICES, default=BLACK)
+
 
     """ Car Type """
     CONVERTIBLE = 'Convertible'
@@ -58,11 +85,9 @@ class Car(models.Model):
     CAR_TYPE_CHOICES = [
         (CONVERTIBLE, 'Convertible'),
         (COUPE, 'Coupe'),
-        (HATCHBACK, 'Hatchback'),
         (SEDAN, 'Sedan'),
         (SUV, 'SUV'),
         (TRUCK, 'Truck'),
-        (WAGON, 'Wagon'),
     ]
     car_type = models.CharField(max_length=15, choices=CAR_TYPE_CHOICES, default=SEDAN)
 
@@ -137,8 +162,8 @@ class Car(models.Model):
         Raises:
             ValidationError: If any of the validation rules are violated.
         """
-        if self.make and self.model and self.year and self.color and self.mileage:
-            if Car.objects.filter(make__iexact=self.make, model__iexact=self.model, year=self.year, color__iexact=self.color, mileage=self.mileage, car_type=self.car_type).exclude(id=self.id).exists():
+        if self.make and self.model and self.year and self.car_color and self.mileage:
+            if Car.objects.filter(make__iexact=self.make, model__iexact=self.model, year=self.year, car_color=self.car_color, mileage=self.mileage, car_type=self.car_type).exclude(id=self.id).exists():
                 raise ValidationError("Car already exists")
             
         if self.sold and (not self.date_sold or not self.salesperson):
@@ -180,7 +205,7 @@ class Car(models.Model):
             titled_words = [special_cases.get(word.lower(), word.title()) for word in words]
             return ' '.join(titled_words)
 
-        for field_name in ['make', 'model', 'color']:
+        for field_name in ['make', 'model']:
             val = getattr(self, field_name, "").strip()
             # accounts for BMW, GMC, etc.
             if len(val) == 3:

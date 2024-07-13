@@ -32,7 +32,7 @@ class CarForm(forms.ModelForm):
         """
         model = Car
         fields = [
-            'id', 'make', 'model', 'year', 'color', 'price', 'mileage', 'sold', 'date_sold',
+            'id', 'make', 'model', 'year', 'car_color', 'price', 'mileage', 'sold', 'date_sold',
             'car_type', 'salesperson'
         ]
         
@@ -75,7 +75,7 @@ class CarListView(ListView):
         Overrides the default get_queryset() method of the ListView class. It returns a filtered and ordered queryset of Car instances based on the query parameters in the request. 
         
         The queryset is filtered by the following query parameters:
-            - color_filter: The color of the car.
+            - car_color_filter: The color of the car.
             - make_filter: The make of the car.
             - model_filter: The model of the car.
             - year_filter: The year of the car.
@@ -88,14 +88,14 @@ class CarListView(ListView):
         """
         queryset = super().get_queryset()
         order = self.request.GET.get('order')
-        color_filter = self.request.GET.get('color_filter') 
+        car_color_filter = self.request.GET.get('car_color_filter') 
         make_filter = self.request.GET.get('make_filter')
         model_filter = self.request.GET.get('model_filter')
         year_filter = self.request.GET.get('year_filter')
         car_type_filter = self.request.GET.get('car_type_filter')
 
-        if color_filter:
-            queryset = queryset.filter(color=color_filter)
+        if car_color_filter:
+            queryset = queryset.filter(car_color=car_color_filter)
 
         if make_filter:
             queryset = queryset.filter(make=make_filter)
@@ -138,25 +138,25 @@ class CarListView(ListView):
     
     def get_context_data(self, **kwargs):
         """ 
-        Retrieves distinct values for various car attributes (makes, models, colors, years, and car types) and adds them to the context dictionary. These values are used to provide filter options on the webpage. Pagination is also added to allow for pagination of the list of cars.
+        Retrieves distinct values for various car attributes (makes, models, car colors, years, and car types) and adds them to the context dictionary. These values are used to provide filter options on the webpage. Pagination is also added to allow for pagination of the list of cars.
         
         Args:
             **kwargs: Arbitrary keyword arguments.
 
         Returns:
-            dict: A dictionary containing filter options for makes, models, colors, years, and car types added to the context.
+            dict: A dictionary containing filter options for makes, models, car colors, years, and car types added to the context.
         """
         context = super().get_context_data(**kwargs)
         
         makes = Car.objects.values_list('make', flat=True).distinct()
         models = Car.objects.values_list('model', flat=True).distinct()
-        colors = Car.objects.values_list('color', flat=True).distinct()
+        car_colors = Car.objects.values_list('car_color', flat=True).distinct()
         years = Car.objects.values_list('year', flat=True).distinct()
         car_types = Car.objects.values_list('car_type', flat=True).distinct()
         
         context['makes'] = makes
         context['models'] = models
-        context['colors'] = colors
+        context['car_colors'] = car_colors
         context['years'] = years
         context['car_types'] = car_types
         
@@ -257,7 +257,7 @@ class CarUpdateView(UpdateView):
     """
     model = Car
     template_name = 'cars/car_form.html'
-    fields = ['id', 'make', 'model', 'year', 'color', 'price', 'mileage', 'sold', 'date_sold', 'salesperson', 'car_type']  
+    fields = ['id', 'make', 'model', 'year', 'car_color', 'price', 'mileage', 'sold', 'date_sold', 'salesperson', 'car_type']  
     success_url = reverse_lazy('car_list')
 
     def form_valid(self, form):
