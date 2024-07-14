@@ -21,8 +21,7 @@
         <p>
             {{ field.label_tag }}<br>
             {% if field.name == 'date_sold' %}
-            <!-- Replace 'date_field_name' with the actual name of your date field -->
-            {{ field }} <!-- No need for special ID, flatpickr will target it by name -->
+            {{ field }} 
             {% else %}
             {{ field }}
             {% endif %}
