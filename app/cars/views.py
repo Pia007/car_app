@@ -1,4 +1,6 @@
+import re
 from django import forms
+from django.core.exceptions import ValidationError
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.shortcuts import get_object_or_404, redirect
 from django.utils.decorators import method_decorator
@@ -35,6 +37,38 @@ class CarForm(forms.ModelForm):
             'id', 'make', 'model', 'year', 'car_color', 'price', 'mileage', 'sold', 'date_sold',
             'car_type', 'salesperson'
         ]
+
+    def clean_price(self):
+        price = self.cleaned_data.get('price')
+        if price is not None and price < 0:
+            raise ValidationError('Price cannot be negative.')
+        return price
+
+    def clean_year(self):
+        year = self.cleaned_data.get('year')
+        if year is not None and year < 0:
+            raise ValidationError('Year cannot be negative.')
+        return year
+
+    def clean_mileage(self):
+        mileage = self.cleaned_data.get('mileage')
+        if mileage is not None and mileage < 0:
+            raise ValidationError('Mileage cannot be negative.')
+        return mileage
+
+    def clean_model(self):
+        model = self.cleaned_data.get('model')
+        if model and not re.match(r'^[a-zA-Z0-9 ]*$', model):
+            raise ValidationError(
+                'Model can only contain alphanumeric characters and spaces.')
+        return model
+
+    def clean_make(self):
+        make = self.cleaned_data.get('make')
+        if make and not re.match(r'^[a-zA-Z0-9 ]*$', make):
+            raise ValidationError(
+                'Make can only contain alphanumeric characters and spaces.')
+        return make
         
 class HomePageView(TemplateView):
     """
