@@ -58,16 +58,22 @@ class CarForm(forms.ModelForm):
 
     def clean_model(self):
         model = self.cleaned_data.get('model')
-        if model and not re.match(r'^[a-zA-Z0-9 ]*$', model):
-            raise ValidationError(
-                'Model can only contain alphanumeric characters and spaces.')
+        if model:
+            if not re.match(r'^[a-zA-Z0-9 ]*$', model):
+                raise ValidationError(
+                    'Model can only contain alphanumeric characters and spaces.')
+            if len(model) > 12:
+                raise ValidationError('Model cannot exceed 12 characters.')
         return model
 
     def clean_make(self):
         make = self.cleaned_data.get('make')
-        if make and not re.match(r'^[a-zA-Z0-9 ]*$', make):
-            raise ValidationError(
-                'Make can only contain alphanumeric characters and spaces.')
+        if make:
+            if not re.match(r'^[a-zA-Z0-9 ]*$', make):
+                raise ValidationError(
+                    'Make can only contain alphanumeric characters and spaces.')
+            if len(make) > 12:
+                raise ValidationError('Make cannot exceed 12 characters.')
         return make
         
 class HomePageView(TemplateView):
